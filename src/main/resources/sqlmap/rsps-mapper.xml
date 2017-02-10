@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper
+ 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rsps">
+
+
+	<resultMap id="rspsResult" type="Rsps" >
+		<id property="history_id" column="history_id"/>
+		<result property="p_type" column="p_type"/>
+		<result property="u_type" column="u_type"/>
+		<result property="reg_date" column="reg_date"/>
+		<result property="vs_result" column="vs_result"/>
+	</resultMap>
+
+
+	<select id="selectRSPS" resultMap="rspsResult">
+		select  history_id,
+					p_type,
+					u_type,
+					reg_date,
+					vs_result
+			from rsps_history
+	</select>
+
+</mapper>

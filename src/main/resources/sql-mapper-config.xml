@@ -7,7 +7,7 @@
 	</settings>
 
 	<typeAliases>
-		<package name="kr.pe.ned.data"/>
+		<package name="kr.co.yul.data"/>
 	</typeAliases>
 
 </configuration>

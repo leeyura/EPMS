@@ -5,8 +5,7 @@
 	<artifactId>springweb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<description>spring mvc + spring + mybatis, mybatis 는 sql id로 직접호출 (mapper 사용안함)</description>
-
+	
 	<properties>
 		<spring.version>4.2.6.RELEASE</spring.version>
 	</properties>
@@ -48,6 +47,13 @@
 			<version>3.2.8</version>
 		</dependency>
 
+		<!-- lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.10</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- log -->
 		<dependency>
@@ -99,12 +105,9 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
-
 	<build>
-
 		<plugins>
 			<!-- compiler, refer to https://maven.apache.org/plugins/maven-compiler-plugin/ -->
 			<plugin>
