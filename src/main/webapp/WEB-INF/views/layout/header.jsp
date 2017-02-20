@@ -6,7 +6,7 @@
 			<div class="nav-wrapper">
 				<ul class="left">
 					<li><h1 class="logo-wrapper">
-							<a href="index.html" class="brand-logo darken-1">
+							<a href="${pageContext.request.contextPath}/" class="brand-logo darken-1">
 								<%-- <img src="${pageContext.request.contextPath }/images/logso.png" alt="EPMS logo">--%>
 							<span style="color: yellow;">D</span><span style="color: #00e676;">A</span>IMS_EPMS
 							</a>  

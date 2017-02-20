@@ -8,9 +8,9 @@
     </appender>
 
 	<!-- mybatis sqlmap namespace -->
-	<logger name="article" level="TRACE"/>
+	<!-- <logger name="article" level="TRACE"/> -->
 
-    <logger name="kr.pe.ned" level="DEBUG"/>
+    <logger name="kr.co.yul" level="DEBUG"/>
 
     <root level="ERROR">
         <appender-ref ref="STDOUT" />

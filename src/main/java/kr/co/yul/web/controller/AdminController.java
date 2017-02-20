@@ -15,18 +15,40 @@ public class AdminController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
 
-	@RequestMapping("/userMgr")
-	public ModelAndView showRootView() {
+	@RequestMapping("/userMgrCard")
+	public ModelAndView showCardView() {
 
 		logger.debug("show root view");
 
-		ModelAndView mav = new ModelAndView("admin/account");
+		ModelAndView mav = new ModelAndView("admin/account/accountCard");
 		return mav;
 	}
-
-	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String showLoginView() {
-		return "login";
+	
+	@RequestMapping("/userMgrList")
+	public ModelAndView showListView() {
+		
+		logger.debug("show root view");
+		
+		ModelAndView mav = new ModelAndView("admin/account/accountList");
+		return mav;
 	}
-
+	
+	
+	@RequestMapping("/reqEpList")
+	public ModelAndView showReqEpListView() {
+		
+		logger.debug("show root view");
+		
+		ModelAndView mav = new ModelAndView("admin/request/reqEpList");
+		return mav;
+	}
+	
+	@RequestMapping("/reqEpCard")
+	public ModelAndView showReqEpCardView() {
+		
+		logger.debug("show root view");
+		
+		ModelAndView mav = new ModelAndView("admin/request/reqEpCard");
+		return mav;
+	}
 }

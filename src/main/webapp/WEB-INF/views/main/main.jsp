@@ -29,14 +29,14 @@
             <section id="content" >
 				
 				<!-- 메인화면 -->
-               <div id="card-widgets" style="min-height: 739px;">
-                        <div class="row">
+<!--                <div id="card-widgets" style="min-height: 739px;">
+ -->                        <div class="row">
                               <div class="col s12 m6 l4">
 									<h1>Main</h1>
                             </div>
                      
                         </div>
-                     </div>   
+                     <!-- </div>    -->
             </section>
 
         </div>

@@ -19,187 +19,114 @@
         <div class="wrapper">
 
             <jsp:include page="../layout/menu.jsp" flush="false"/>
-            <section id="content" style="min-height: 715px;">
-	            <div class="row"style="margin-top: 20px;" id="productList" >
-					<div class="col s3 m3 l3"><span style="color: #fff;">temp</span></div>	
-	            	<div class="col s6 m6 l6">
+            <section id="content" style="min-height: 590px;">
+            
+            <!-- add Modal -->
+            <jsp:include page="../modal/addProductModal.jsp" flush="false"/>
+			<!-- modal 끝 -->
+            
+	            <div id="input-select" class="row" style="margin-bottom: 0px;">
+					<div class="col s1 m1 l1">
+						<span style="color: #fff;">DAIMS_EPMS</span>
+					</div>
+					<div class="col s2 m2 l2" style="padding-right: 0px; padding-top: 20px;">
+						<div class="col s3 m3 l3"><span style="color: #fff;">DAIMS_EPMS</span></div>
+							<div class="col s6 m6 l6">
+								<a class="btn-floating btn-large waves-effect waves-light modal-trigger" href="#addModal">
+									<i class="material-icons">add</i>
+								</a>
+							</div>
+					</div>
+					<div class="col s6 m6 l6 right" style="display: flex;padding-top: 20px;padding-left: 0px;padding-bottom: -5;">
+                       	<form method="get" action="${pageContext.request.contextPath }/product/list" >
+	                       	<input class="input-field col s10 m10 l10" type="text" placeholder="비품명" style="margin-left: 0px;"  name="name">
+	                      	<i class="material-icons  right" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">search</i> 
+                       	</form>
+                      	
+						<div class="select-wrapper initialized" style="margin-right: 20px;">
+							<span class="caret">▼</span> 
+							<select class="initialized" id="type" onchange="getList()">
+								<option value="" selected="selected">분류</option>
+								<option value="0">식.음료</option>
+								<option value="1">생활용품</option>
+								<option value="2">사무용품</option>
+								<option value="3">기타</option>
+							</select>
+						</div>
+						
+						<a href="${pageContext.request.contextPath }/product/list" style="padding-top: 15px;">
+							<i class="material-icons">menu</i>
+						</a> 
+						<a href="${pageContext.request.contextPath }/product/card" style="padding-top: 15px;">
+							<i class="material-icons">apps</i>
+						</a>
+	                </div>
+				</div>
+				
+				<!-- main -->
+				<div class="row" id="productList" style="margin-top: 20px;">
+					<div class="col s1 m1 l1"><span style="color: #fff;">DAIMS_EPMS</span></div> 	
+	            	<div class="col s10 m10 l10">
 						<table class="bordered">
 		                    <thead>
 		                      <tr>
-		                        <th data-field="id">비품명</th>
-		                        <th data-field="price">가격</th>
-		                        <th data-field="name">등록일</th>
+		                        <th data-field="epName">비품명</th>
+		                        <th data-field="epType">분류</th>
+		                        <th data-field="epPrice">가격</th>
+		                        <th data-field="insertDate">등록일</th>
+		                        <th data-field="updateDate">수정일</th>
+		                        <th data-field="udtNm">최종수정자</th>
+		                        <th data-field="udtId">수정</th>
+		                        <th data-field="delId">삭제</th>
 		                      </tr>
 		                    </thead>
 		                    <tbody>
-		                      <tr>
-		                        <td>맥심 카누 마일드</td>
-		                        <td>3000원</td>
-		                        <td>2017.01.08</td>
-		                      </tr>
-		                      <tr>
-		                        <td>맥심 카누 스위트</td>
-		                        <td>3000원</td>
-		                        <td>2017.01.08</td>
-		                      </tr>
-		                      <tr>
-		                        <td>둥글레차</td>
-		                        <td>6000원</td>
-		                        <td>2017.02.06</td>
-		                      </tr>
-		                      <tr>
-		                        <td>결명자차</td>
-		                        <td>6000원</td>
-		                        <td>2017.02.06</td>
-		                      </tr>
-		                      <tr>
-		                        <td>핫초코</td>
-		                        <td>7500원</td>
-		                        <td>2017.02.07</td>
-		                      </tr>
-		                      <tr>
-		                        <td>페퍼민트허브차</td>
-		                        <td>6500원</td>
-		                        <td>2017.02.08</td>
-		                      </tr>
-		                      <tr>
-		                        <td>옥수수수염차</td>
-		                        <td>5000원</td>
-		                        <td>2017.02.09</td>
-		                      </tr>
+		                    	<c:if test="${productList != null }">
+									<c:forEach items="${productList}" var="list" varStatus="status">
+										<tr>
+											<td>${list.epNm }</td>
+											<c:set value="${list.epType }" var="type"/>
+											<c:if test="${type == 0 }">
+												<td>식.음료</td>
+											</c:if>
+											<c:if test="${type == 1 }">
+												<td>생활용품</td>
+											</c:if>
+											<c:if test="${type == 2 }">
+												<td>사무용품</td>
+											</c:if>
+											<c:if test="${type == 3 }">
+												<td>기타</td>
+											</c:if>
+											<td>${list.epPrice }원</td>
+											<td>${list.insertDt }</td>
+											<c:if test="${list.updateDt != null }">
+												<td>${list.updateDt }</td>
+											</c:if>
+											<c:if test="${list.updateDt == null }">
+												<td>-</td>
+											</c:if>
+											<td>${list.memNm }</td>
+											<td>
+						                        <a href="${pageContext.request.contextPath}/product/view" style="text-decoration: none; color: black; "><i class="material-icons" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">border_color</i></a>
+					                          </td>
+					                          <td>
+						                          <i class="material-icons" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">delete_forever</i>
+					                          </td>
+										</tr>
+									</c:forEach>		                    	
+		                    	</c:if>
+		                    	<c:if test="${productList == '[]'  || productList == null}">
+		                    		<tr>
+		                    			<td colspan="8"> 비품목록이 없습니다. 비품을 등록해주세요.</td>
+		                    		</tr>
+		                    	</c:if>
 		                    </tbody>
 		                 </table>
 	            	</div>
-	            	<div class="col s3 m3 l3"><span style="color: #fff;">temp</span></div>
-	            </div>
-	            <div>
-	            <div class="row">
-	            	<div class="col s3 m3 l3"><span style="color: #fff;">temp</span></div>
-	            	<div class="col s6 m6 l6">
-	            		<a class="btn-floating btn-large waves-effect waves-light right "><i class="material-icons right">add</i></a>
-	            	</div>
-	            	<div class="col s3 m3 l3"><span style="color: #fff;">temp</span></div>
-	            </div>
-				<!-- 메인화면 -->
-             <%--  <div id="products" class="row" style="position: relative; height: 1125.45px;" id="productCardList">
-                <div class="product-sizer"></div>
-                
-                <div class="product" style="position: absolute; left: 0px; top: 0px;">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">3000원</a>
-                            <a href="#"><img src="${pageContext.request.contextPath }/images/productImg/KANU.jpg" alt="product-img">
-                            </a>
-                        </div>
-
-                        <div class="card-content">
-
-                            <div class="row">
-                                <div class="col s8">
-                                	
-                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">Maxim KANU</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product" style="position: absolute; left: 319px; top: 0px;">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">5000원</a>
-                            <a href="#"><img src="${pageContext.request.contextPath }/images/productImg/OKSUSU.jpg" alt="product-img">
-                            </a>
-                        </div>
-                        <div class="card-content">
-
-                            <div class="row">
-                                <div class="col s8">
-                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">옥수수 수염차</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product" style="position: absolute; left: 639px; top: 0px;">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">6000원</a>
-                            
-
-                            <a href="#"><img src="${pageContext.request.contextPath }/images/productImg/DUNG.jpg" alt="product-img">
-                            </a>
-                        </div>
-                        <div class="card-content">
-
-                            <div class="row">
-                                <div class="col s8">
-                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">둥글레차</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product" style="position: absolute; left: 958px; top: 0px;">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">7500원</a>
-                            
-
-                            <a href="#"><img src="${pageContext.request.contextPath }/images/productImg/HOT.jpg" alt="product-img">
-                            </a>
-                        </div>
-                        <div class="card-content">
-
-                            <div class="row">
-                                <div class="col s8">
-                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">핫초코</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="product" style="position: absolute; left: 1278px; top: 0px;">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">6500원</a>
-                            
-
-                            <a href="#"><img src="${pageContext.request.contextPath }/images/productImg/PEPER.jpg" alt="product-img">
-                            </a>
-                        </div>
-                        <div class="card-content">
-
-                            <div class="row">
-                                <div class="col s8">
-                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">페퍼민트허브차</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>yul
-                </div>
-            </div> --%>
-            
-    <!--         <div class="row">
-		            	<div class="col s3 m3 l3"><span style="color: #fff;">temp</span></div>
-		            	<div class="col s6 m6 l6" style="text-align: center;">
-		            		<a class="waves-effect waves-light  btn">List</a>
-		            		<a class="waves-effect waves-light  btn" style="margin-right: 10px;">Card</a>
-		            	</div>
-		            	<div class="col s3 m3 l3"><span style="color: #fff;">temp</span></div>
-	            	</div> -->
+	            	<div class=""><span style="color: #fff;">DAIMS_EMPS <input type="hidden" id="path"  value="${pageContext.request.contextPath }"></span></div> 	
 	            </div>
             </section>
-
         </div>
         <!-- END WRAPPER -->
     </div>
@@ -211,11 +138,28 @@
     Scripts
     ================================================ -->
     <jsp:include page="../common/common.jsp" flush="false"/>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/script/product.js"></script>
     <script type="text/javascript">
-    $(function(){
-    	
-    	
-    });
+/*     $(function(){
+    	var path = $('#path').val();
+		
+    	$('#del').on('click', function(){
+	    	$.ajax({
+		          type : "POST",
+		          url : path+"/product/deleteProduct",
+		          data: {
+		        	  		 epId : $('#id').val()
+		                    },
+		                    success : function(data) {	
+									window.alert(data);
+		                    },
+		                    error : function(xhr, status, error) {
+		                          alert("에러발생" + error);
+		                    }
+		        });
+    	})
+    }); */
+
     </script>
 </body>
 

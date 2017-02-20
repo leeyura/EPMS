@@ -21,6 +21,7 @@
     <!-- CORE CSS-->    
     <link href="${pageContext.request.contextPath}/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="${pageContext.request.contextPath}/css/style.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+    <link href="${pageContext.request.contextPath}/css/plugins/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Custome CSS-->    
     <!-- <link href="css/custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"> -->

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper
+ 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+
+	<resultMap id="productResult" type="ProductVO" >
+		<id property="epId" column="EP_ID"/>
+		<id property="epNm" column="EP_NM"/>
+		<result property="epPrice" column="EP_PRICE"/>
+		<result property="epType" column="EP_TYPE"/>
+		<result property="epIstMemId" column="EP_IST_MEM_ID"/>
+		<result property="epUstMemId" column="EP_UST_MEM_ID"/>
+		<result property="epUseYn" column="EP_USE_YN"/>
+		<result property="insertDt" column="INSERT_DT"/>
+		<result property="updateDt" column="UPDATE_DT"/>
+		<result property="deleteDt" column="DELETE_DT"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="realNm" column="REAL_NM"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="memEmail" column="MEM_EMAIL"/>
+		<result property="memId" column="MEM_ID"/>
+	</resultMap>
+
+	<insert id="addNewProduct" parameterType="ProductVO">
+		INSERT INTO EPMS_EPMENT(EP_ID,
+								                        EP_NM,
+								                        EP_PRICE,
+								                        EP_TYPE,
+								                        EP_IST_MEM_ID,
+								                        EP_UST_MEM_ID,
+								                        EP_USE_YN,
+								                        INSERT_DT)
+						                 VALUES( SEQ_EP.NEXTVAL,
+								                        #{epNm},
+								                        #{epPrice},
+								                        #{epType},
+								                        #{epIstMemId},
+								                        #{epUstMemId},
+								                        'Y',
+								                        sysdate)
+	</insert>
+	
+	<insert id="addProductImg" parameterType="hashmap">
+		INSERT INTO EPMS_FILE ( FILE_ID,
+		                                          REAL_NM,
+		                                          CHANGE_NM,
+		                                          FILE_PATH,
+		                                          INSERT_DT,
+		                                          UPDATE_DT
+		                                          )
+		                          VALUES (SEQ_FILE.NEXTVAL,
+		                                         #{realNm},
+		                                         #{changeNm},
+		                                         #{filePath},
+		                          				sysdate,
+		                          				sysdate
+		                          				)
+	</insert>
+	
+	<insert id="addEpImg" parameterType="hashmap">
+		INSERT INTO EPMS_FILE_EP ( FILE_ID,
+		                                                EP_ID
+		                                               )
+			                          VALUES ( #{fileId},
+			                                          #{epId}
+			                                        )
+	</insert>
+
+	<select id="getEpList" resultMap="productResult" >
+		SELECT	  EP.EP_ID,          
+		              EP.EP_NM,          
+		      	      EP.EP_TYPE,          
+		              EP.EP_PRICE,         
+		              TO_CHAR(EP.INSERT_DT, 'YYYY-MM-DD')AS insertDt,
+		              TO_CHAR(EP.UPDATE_DT, 'YYYY-MM-DD')AS updateDt,
+		              M.MEM_ID,          
+		              M.MEM_NM,          
+		              FE.FILE_ID     
+		  FROM EPMS_EPMENT EP LEFT OUTER JOIN EPMS_FILE_EP FE ON EP.EP_ID = FE.EP_ID                        
+		                                             LEFT OUTER JOIN EPMS_MEMBER M ON EP.EP_UST_MEM_ID = M.MEM_ID   
+		 WHERE EP.EP_USE_YN = 'Y'
+		 <if test="type != null and type != ''">
+		 	AND EP.EP_TYPE = #{type}
+		 </if>
+		 <if test="name != null and name != ''">
+		 	AND EP.EP_NM LIKE  '%' || #{name} || '%'
+		 </if>
+	</select>
+	
+	
+	<select id="getEpCard" resultMap="productResult">
+		SELECT   EP.EP_ID,          
+				       EP.EP_NM,          
+				       EP.EP_TYPE,          
+				       EP.EP_PRICE,         
+				       TO_CHAR(EP.INSERT_DT, 'YYYY-MM-DD')AS insertDt,
+				       TO_CHAR(EP.UPDATE_DT, 'YYYY-MM-DD')AS updateDt,
+				       F.FILE_ID,
+				       F.REAL_NM,
+				       F.FILE_PATH
+	  	   FROM EPMS_EPMENT EP LEFT OUTER JOIN EPMS_FILE_EP FE ON EP.EP_ID = FE.EP_ID                        
+			  	                                     LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID                             
+		WHERE EP.EP_USE_YN = 'Y'
+		 <if test="type != null and type != ''">
+	 		AND EP.EP_TYPE = #{type}
+	 </if>
+	 <if test="name != null and name != ''">
+	 		AND EP.EP_NM LIKE  '%' || #{name} || '%'
+	 </if>
+	</select>
+	
+	
+	
+	
+	<select id="getEpId" resultType="int">
+		SELECT MAX(FILE_ID) 
+		 FROM EPMS_FILE
+	</select>
+	
+	<select id="getFileId" resultType="int">
+		SELECT MAX(EP_ID) 
+		 FROM EPMS_EPMENT
+	</select>
+	
+</mapper>
