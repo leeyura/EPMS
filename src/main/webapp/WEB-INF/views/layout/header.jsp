@@ -11,7 +11,7 @@
 							<span style="color: yellow;">D</span><span style="color: #00e676;">A</span>IMS_EPMS
 							</a>  
 								<!-- <span class="logo-text">DAIMS_EPMS</span> -->
-						</h1></li>
+						</h1><input type="hidden" id="path" value="${pageContext.request.contextPath }"></li>
 				</ul>
 				<div class="header-search-wrapper hide-on-med-and-down"></div>
 			</div>

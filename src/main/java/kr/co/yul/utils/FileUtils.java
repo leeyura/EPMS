@@ -17,8 +17,8 @@ import com.mysql.fabric.xmlrpc.base.Data;
 
 @Component("fileUtils")
 public class FileUtils {
-	/*private static final String filePath = "C:\\dev\\products";*/
-	private static final String filePath = "D:\\workspace\\DAIMS_EPMS\\src\\main\\webapp\\images\\products";
+	private static final String filePath = "C:\\dev\\products";
+	/*private static final String filePath = "D:\\workspace\\DAIMS_EPMS\\src\\main\\webapp\\images\\products";*/
 	
 	public List<Map<String,Object>> parseInsertFileInfo( HttpServletRequest request) throws Exception{
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
@@ -56,4 +56,5 @@ public class FileUtils {
         }
         return list;
     }
+	
 }

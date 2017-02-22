@@ -5,24 +5,17 @@
 
 
 <body>
-    <!-- Start Page Loading -->
-    <div id="loader-wrapper">
-        <div id="loader"></div>        
-        <div class="loader-section section-left"></div>
-        <div class="loader-section section-right"></div>
-    </div>
-    <!-- End -->
-
 	<jsp:include page="../layout/header.jsp" flush="false"/> 
 
     <div id="main">
         <div class="wrapper">
 
             <jsp:include page="../layout/menu.jsp" flush="false"/>
-            <section id="content" style="min-height: 590px;">
+            <section id="content" style="min-height: 647px;">
             
             <!-- add Modal -->
             <jsp:include page="../modal/addProductModal.jsp" flush="false"/>
+            
 			<!-- modal 끝 -->
             
 	            <div id="input-select" class="row" style="margin-bottom: 0px;">
@@ -111,7 +104,7 @@
 						                        <a href="${pageContext.request.contextPath}/product/view" style="text-decoration: none; color: black; "><i class="material-icons" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">border_color</i></a>
 					                          </td>
 					                          <td>
-						                          <i class="material-icons" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">delete_forever</i>
+						                          <i class="material-icons" style="padding-top: 15px; margin-left: 0px; cursor: pointer;" onclick="removeProduct(${list.epId});">delete_forever</i>
 					                          </td>
 										</tr>
 									</c:forEach>		                    	
@@ -124,7 +117,7 @@
 		                    </tbody>
 		                 </table>
 	            	</div>
-	            	<div class=""><span style="color: #fff;">DAIMS_EMPS <input type="hidden" id="path"  value="${pageContext.request.contextPath }"></span></div> 	
+	            	<div class=""><span style="color: #fff;">DAIMS_EMPS</span></div> 	
 	            </div>
             </section>
         </div>

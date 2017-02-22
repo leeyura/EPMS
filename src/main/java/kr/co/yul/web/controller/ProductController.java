@@ -1,14 +1,24 @@
 package kr.co.yul.web.controller;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +118,36 @@ public class ProductController {
 		return mav;
 	}
 
+	@RequestMapping("/img")
+	public void getFileInfo(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		Image img = null;
+		int fileId = Integer.parseInt(req.getParameter("fileId"));
+		ProductVO vo = new ProductVO();
+		try {
+			vo = dao.getFileInfo(fileId);
+
+			String path = vo.getFilePath();
+			String nm = vo.getRealNm();
+			File file = new File(path + "\\" + nm);
+			
+			InputStream in = new FileInputStream(file.getPath());
+			
+			res.setContentType("image/jpeg");
+			IOUtils.copyLarge(in, res.getOutputStream());
+			
+			try {
+				img = ImageIO.read(file);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//epId=0, fileId=1,realNm=HOT.jpg, filePath=D:\workspace\DAIMS_EPMS\src\main\webapp\images\products
 	
 @RequestMapping(value="/addProduct")
 	public ModelAndView addNewProduct(HttpServletRequest req, HttpServletResponse res, HttpSession session, 
@@ -137,14 +177,22 @@ public class ProductController {
 
 	@ResponseBody
 	@RequestMapping("/deleteProduct")
-	public String deleteProduct(HttpServletRequest req, HttpServletResponse res, @RequestParam String epId) {
-		String msg = "";
-		if(epId != null){
-			msg = epId + "," + "ok";
+	public String deleteProduct(HttpServletRequest req, HttpServletResponse res, HttpSession session,@RequestParam String epId) {
+		String result = "";
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(session.getAttribute("id")== null){
+			result = "0";
 		}else{
-			msg = "no";
+			map.put("memId", session.getAttribute("id"));
+			map.put("epId", epId);
+			try {
+				dao.deleteProduct(map);
+				result = "1";
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return msg;
+		return result;
 	}
 
 	

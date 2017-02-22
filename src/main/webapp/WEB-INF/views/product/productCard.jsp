@@ -6,11 +6,7 @@
 
 <body>
     <!-- Start Page Loading -->
-    <div id="loader-wrapper">
-        <div id="loader"></div>        
-        <div class="loader-section section-left"></div>
-        <div class="loader-section section-right"></div>
-    </div>
+
     <!-- End -->
 
 	<jsp:include page="../layout/header.jsp" flush="false"/> 
@@ -24,6 +20,8 @@
                  
             <!-- add Modal -->
             <jsp:include page="../modal/addProductModal.jsp" flush="false"/>
+            <!-- edit Modal -->
+            <jsp:include page="../modal/editProductModal.jsp" flush="false"/>
 			<!-- modal 끝 -->
 			
 	            <div id="input-select" class="row" style="margin-bottom: 0px;">
@@ -31,7 +29,7 @@
 						<span style="color: #fff;">DAIMS_EPMS</span>
 					</div>
 					<div class="col s2 m2 l2" style="padding-right: 0px; padding-top: 20px;">
-						<div class="col s3 m3 l3"><span style="color: #fff;">DAIMS_EPMS <input type="hidden" id="path"  value="${pageContext.request.contextPath }"></span></div>
+						<div class="col s3 m3 l3"><span style="color: #fff;">DAIMS_EPMS</span></div>
 							<div class="col s6 m6 l6">
 								<a class="btn-floating btn-large waves-effect waves-light modal-trigger" href="#addModal">
 									<i class="material-icons">add</i>
@@ -76,15 +74,16 @@
 							<div class="card">
 								<div class="card-image waves-effect waves-block waves-light">
 									<a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">${list.epPrice }원</a>
-									<a href="${pageContext.request.contextPath}/product/view">
+									<a onclick="showEditModal(${list.epId});">
 										<i class="material-icons right" style="position: absolute; z-index: 1; top: 5px; left: 0px; min-height: 100%; margin-left: 83%; text-decoration: none; color: black">border_color</i>
 									</a>
 									<a href="#">
-										<i class="material-icons right" style=" position: absolute; z-index: 1; top: 5px; left: 20px; min-height: 100%; margin-left: 83%; text-decoration: none; color: black" onclick="removeProduct($list..epId});">highlight_off</i>
+										<i class="material-icons right" style=" position: absolute; z-index: 1; top: 5px; left: 20px; min-height: 100%; margin-left: 83%; text-decoration: none; color: black" onclick="removeProduct(${list.epId});">highlight_off</i>
 									</a>
 									<a href="${pageContext.request.contextPath }/product/view">
 									<c:if test="${list.realNm != null && list.realNm != '' }">
-										<img src="${pageContext.request.contextPath }/images/products/${list.realNm}" >
+<%-- 										<img src="${list.filePath }/${list.realNm}" > --%>
+												<img alt="" src="${pageContext.request.contextPath }/product/img?fileId=${list.fileId}">
 									</c:if>
 									<c:if test="${list.realNm == null || list.realNm == '' }">
 										<img src="${pageContext.request.contextPath }/images/productImg/tempImg.jpg" >

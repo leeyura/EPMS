@@ -43,11 +43,21 @@ public class RootController {
 		mav.addObject("noLogin", "로그인 후 이용해주세요");
 		return mav;
 	}
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public ModelAndView goLoginView(HttpSession session) {
+		ModelAndView mav = new ModelAndView("login/login");
+		session.removeAttribute("id");
+		session.removeAttribute("email");
+		session.removeAttribute("nm");
+		session.removeAttribute("level");
+		mav.addObject("logout", "로그아웃되었습니다.");
+		return mav;
+	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public ModelAndView loginCheck(HttpServletRequest req, HttpServletResponse res, HttpSession session, 
 			 													@RequestParam String memEmail, @RequestParam String memPwd) throws UnsupportedEncodingException{
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = null;
 		MemberVO vo =  new MemberVO();
 		vo.setMemEmail(memEmail);
 		vo.setMemPwd(getSHAPassword(memPwd));
@@ -71,13 +81,18 @@ public class RootController {
 			session.setAttribute("nm", vo.getMemNm());
 			session.setAttribute("level", vo.getMemGrade());
 			
-			
+			if(vo.getMemGrade().equals("0")){
+				mav =  new ModelAndView("redirect:/apply/list");
+			}else if(vo.getMemGrade().equals("1")){
+				mav =  new ModelAndView("redirect:/admin/reqEpList");
+			}
 			mav.addObject("userInfo", session);
-			mav.setViewName("apply/applyList");
+		//	mav.setViewName("apply/applyList");
 			
 		}else{
-			mav.setViewName("login/register");
-			mav.addObject("empty", "가입 후 이용해 주세요.");
+			mav = new ModelAndView();
+			mav.setViewName("login/login");
+			mav.addObject("emptyInfo", "계정이 없으시면 가입후 이용해 주세요.");
 		}
 		return mav;
 	}

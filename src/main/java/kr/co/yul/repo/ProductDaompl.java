@@ -21,6 +21,18 @@ public class ProductDaompl implements ProductDao{
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
+	
+	
+	
+	
+	@Override
+	public ProductVO getFileInfo(int fileId) throws SQLException {
+		ProductVO vo = new ProductVO();
+		vo = sqlSessionTemplate.selectOne("product.getFileInfo", fileId);
+		return vo;
+	}
+
+
 	@Override
 	public List<ProductVO> getProductsList(Map<String, String> map) throws SQLException {
 		List<ProductVO> list = null;
@@ -60,4 +72,14 @@ public class ProductDaompl implements ProductDao{
 		return 0;
 	}
 
+
+	@Override
+	public int deleteProduct(Map<String, Object> map) throws SQLException {
+		int cnt = 0;
+		cnt = sqlSessionTemplate.update("product.deleteEp",map);
+		return cnt;
+	}
+
+	
+	
 }

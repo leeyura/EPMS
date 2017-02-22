@@ -66,6 +66,12 @@
 			                                        )
 	</insert>
 
+	<select id="getFileInfo" resultMap="productResult" parameterType="int">
+		SELECT * FROM EPMS_FILE WHERE FILE_ID = #{fileId}
+	
+	</select>
+
+
 	<select id="getEpList" resultMap="productResult" >
 		SELECT	  EP.EP_ID,          
 		              EP.EP_NM,          
@@ -86,7 +92,6 @@
 		 	AND EP.EP_NM LIKE  '%' || #{name} || '%'
 		 </if>
 	</select>
-	
 	
 	<select id="getEpCard" resultMap="productResult">
 		SELECT   EP.EP_ID,          
@@ -109,17 +114,22 @@
 	 </if>
 	</select>
 	
-	
-	
-	
 	<select id="getEpId" resultType="int">
+		SELECT MAX(EP_ID) 
+		 FROM EPMS_EPMENT
+	</select>
+	
+	<select id="getFileId" resultType="int">
 		SELECT MAX(FILE_ID) 
 		 FROM EPMS_FILE
 	</select>
 	
-	<select id="getFileId" resultType="int">
-		SELECT MAX(EP_ID) 
-		 FROM EPMS_EPMENT
-	</select>
+	<update id="deleteEp" parameterType="hashmap">
+	UPDATE EPMS_EPMENT
+		   SET EP_USE_YN = 'N'
+			   , EP_DLT_MEM_ID = #{memId}
+			   , DELETE_DT = sysdate
+	WHERE EP_ID = #{epId}
+	</update>
 	
 </mapper>

@@ -32,7 +32,10 @@
     		}
     		$('#epFrm').submit();
     	});
+    	
+    	 
       });
+
  
  function getList(){
 	 var path = $('#path').val();
@@ -44,6 +47,7 @@
 	 var type =$('#type option:selected').val();
 	 window.location.href = path+"/product/card?type="+type;
  }
+
  
  function removeProduct(epId){
 	 var path = $('#path').val();
@@ -68,12 +72,20 @@
                     	   swal("Cancelled", "삭제에 실패하였습니다. :)", "error");   
                        },
                        success:function(data){
-                    	   swal("Deleted!", "비품이 삭제되었습니다.", "success");          
+                    	   swal({   title: "Deleted",   
+                               text: "비품이 삭제되었습니다",   
+                               type: "success",   showCancelButton: true,   
+                               closeOnConfirm: false,   
+                               showLoaderOnConfirm: true, }, 
+                               function(){   
+                                   setTimeout(function(){     swal("Ajax request finished!");   }, 2000);
+                                   location.reload();
+                          });
                        }
                    })
             	 
          }else {
-                 swal("Cancelled", "Your imaginary file is safe :)", "error");   } 
+                 swal("Cancelled", "삭제에 실패하였습니다. :)", "error");   } 
         });
  }
  

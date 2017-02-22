@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper
+ 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="req">
+
+
+	<resultMap id="productResult" type="ProductVO" >
+		<id property="epId" column="EP_ID"/>
+		<id property="epNm" column="EP_NM"/>
+		<result property="epPrice" column="EP_PRICE"/>
+		<result property="epType" column="EP_TYPE"/>
+		<result property="epIstMemId" column="EP_IST_MEM_ID"/>
+		<result property="epUstMemId" column="EP_UST_MEM_ID"/>
+		<result property="epUseYn" column="EP_USE_YN"/>
+		<result property="insertDt" column="INSERT_DT"/>
+		<result property="updateDt" column="UPDATE_DT"/>
+		<result property="deleteDt" column="DELETE_DT"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="realNm" column="REAL_NM"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="memEmail" column="MEM_EMAIL"/>
+		<result property="memId" column="MEM_ID"/>
+	</resultMap>
+	
+	<resultMap id="applyResult" type="ApplyVO" >
+		<id property="epId" column="EP_ID"/>
+		<id property="memId" column="MEM_ID"/>
+		<result property="epNm" column="EP_NM"/>
+		<result property="epType" column="EP_TYPE"/>
+		<result property="fileId" column="FILE_ID"/>
+		<result property="memNm" column="MEM_NM"/>
+		<result property="memUdtId" column="MEM_UDT_ID"/>
+		<result property="epCnt" column="EP_CNT"/>
+		<result property="epTtPrice" column="EP_TT_PRICE"/>
+		<result property="insertDt" column="INSERT_DT"/>
+		<result property="deleteDt" column="DELETE_DT"/>
+		<result property="cause" column="S_CAUSE" />
+		<result property="epState" column="EP_STATE"/>
+	</resultMap>
+	
+	
+	<select id="getReqList" resultMap="applyResult" parameterType="hashmap">
+		SELECT ME.MEM_ID,
+			         ME.EP_ID,
+			         ME.EP_CNT,
+			         ME.EP_TT_PRICE,
+			         ME.EP_STATE,
+			         ME.S_CAUSE,
+			         TO_CHAR(ME.INSERT_DT, 'YYYY-MM-DD') insertDt,
+			         MEM.MEM_NM,
+			         EE.EP_NM,
+			         EE.EP_TYPE,
+			         F.FILE_ID
+	     FROM EPMS_MEM_EP ME LEFT OUTER JOIN EPMS_MEMBER MEM ON ME.MEM_ID = MEM.MEM_ID  
+								                     LEFT OUTER JOIN EPMS_FILE_EP FE ON ME.EP_ID = FE.EP_ID
+								                     LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID
+	                                  				 LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
+		WHERE ME.INSERT_DT IS NOT NULL
+		<if test="mt != null and mt != ''">
+		 	AND SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) = #{mt}
+		 </if>
+		 <if test="state != null and state != ''">
+			AND ME.EP_STATE = #{state}
+		 </if>
+		ORDER BY ME.EP_STATE ASC
+	</select>
+
+	<update id="updateState" parameterType="hashmap">
+		UPDATE EPMS_MEM_EP
+		       SET EP_STATE = #{changeState}
+		 <if test="cause != null and cause != ''">
+		       , S_CAUSE = #{cause}
+		 </if>
+		WHERE EP_ID = #{epId} 
+	</update>
+	
+	
+	
+	
+	
+
+</mapper>

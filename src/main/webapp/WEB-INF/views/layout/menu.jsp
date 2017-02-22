@@ -13,7 +13,7 @@
                             <li><a href="${pageContext.request.contextPath }/member/profile"><i class="material-icons">perm_identity</i>Profile</a>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="#"><i class="material-icons">input</i>Logout</a>
+                            <li><a href="${pageContext.request.contextPath }/logout"><i class="material-icons">input</i>Logout</a>
                             </li>
                         </ul>
                         <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown"><c:out value="${userInfo.getAttribute(\"nm\") }"/><i class="material-icons right">settings</i></a>
@@ -28,23 +28,42 @@
                <!--  </li>
                 <li class="bold active"><a href="index.html" class="waves-effect waves-cyan"><i class="material-icons">insert_chart</i> 통계</a>
                 </li> -->
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="material-icons">redeem</i>비품</a>
-                            <div class="collapsible-body">
-                                <ul>
-                                    <li><a href="${pageContext.request.contextPath }/product/list">비품 목록</a>
-                                    </li>
-                                    <li><a href="${pageContext.request.contextPath }/apply/list">신청 목록</a>
-                                    </li>
-                                    <li><a href="${pageContext.request.contextPath }/apply/addApply">비품 신청</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                 <li class="no-padding">
+                <c:if test="${userInfo.getAttribute(\"level\") eq 0 }">
+	                <li class="no-padding">
+	                    <ul class="collapsible collapsible-accordion">
+	                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="material-icons">redeem</i>비품</a>
+	                            <div class="collapsible-body">
+	                                <ul>
+	                                    <li><a href="${pageContext.request.contextPath }/product/list">비품 목록</a>
+	                                    </li>
+	                                    <li><a href="${pageContext.request.contextPath }/apply/list">신청 목록</a>
+	                                    </li>
+	                                </ul>
+	                            </div>
+	                        </li>
+	                    </ul>
+	                </li>
+                </c:if>
+                <c:if test="${userInfo.getAttribute(\"level\") eq 1 }">
+	                <li class="no-padding">
+	                    <ul class="collapsible collapsible-accordion">
+	                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="material-icons">redeem</i>비품</a>
+	                            <div class="collapsible-body">
+	                                <ul>
+	                                    <li><a href="${pageContext.request.contextPath }/product/list">비품 목록</a>
+	                                    </li>
+	                                    <li><a href="${pageContext.request.contextPath }/apply/list">신청 목록</a>
+	                                    </li>
+	                                </ul>
+	                            </div>
+	                        </li>
+	                    </ul>
+	                </li>
+	                <li class="bold"><a href="${pageContext.request.contextPath }/admin/userMgrList" class="waves-effect waves-cyan"><i class="material-icons">insert_emoticon</i> 계정</a>
+	                <li class="bold"><a href="${pageContext.request.contextPath }/admin/reqEpList" class="waves-effect waves-cyan"><i class="material-icons">assignment_return</i> 요청비품목록</a>
+                </c:if>
+                
+                <!--  <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
                         <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="material-icons">insert_chart</i>통계</a>
                             <div class="collapsible-body">
@@ -59,9 +78,7 @@
                             </div>
                         </li>
                     </ul>
-                </li>
-                <li class="bold"><a href="${pageContext.request.contextPath }/admin/userMgrList" class="waves-effect waves-cyan"><i class="material-icons">insert_emoticon</i> 계정</a>
-                <li class="bold"><a href="${pageContext.request.contextPath }/admin/reqEpList" class="waves-effect waves-cyan"><i class="material-icons">assignment_return</i> 요청비품목록</a>
+                </li> -->
             </ul>
                 <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="material-icons">menu</i></a>
             </aside>

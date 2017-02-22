@@ -80,6 +80,17 @@
 	    		swal(noLogin, "로그인이 필요한 서비스입니다.", "error");
 	    	} 
 	    	
+	    	var logout = "";
+	    	logout = "${logout}";
+	    	if(logout != ""){
+		    	swal(logout, "서비스를 이용하려면 재로그인 해주세요.", "success");
+	    	} 
+	    	var emptyInfo = "";
+	    	emptyInfo = "${emptyInfo}";
+	    	if(emptyInfo != ""){
+		    	swal("일치하는 회원정보가 없습니다.", emptyInfo, "success");
+	    	} 
+	    	
 	    });
     </script>
 </body>

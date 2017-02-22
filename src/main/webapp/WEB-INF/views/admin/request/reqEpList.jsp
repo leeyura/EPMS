@@ -5,13 +5,6 @@
 
 
 <body>
-    <!-- Start Page Loading -->
-    <div id="loader-wrapper">
-        <div id="loader"></div>        
-        <div class="loader-section section-left"></div>
-        <div class="loader-section section-right"></div>
-    </div>
-    <!-- End -->
 
 	<jsp:include page="../../layout/header.jsp" flush="false"/> 
 
@@ -20,52 +13,54 @@
 
             <jsp:include page="../../layout/menu.jsp" flush="false"/>
             <section id="content">
-            	<!--  +  and select  -->
+            	
   				<div id="input-select" class="row" style="margin-bottom: 0px;">
 					<div class="col s1 m1 l1">
 						<span style="color: #fff;">DAIMS_EPMS</span>
 					</div>
 					
 					<div class="col s2 m2 l2" style="padding-top: 20px;">
-						<div class="col s3 m3 l3"><span style="color: #fff;">DAIMS_EPMS</span></div>
-							<div class="col s6 m6 l6">
-								<a class="btn-floating btn-large waves-effect waves-light " href="${pageContext.request.contextPath }/apply/addApply">
-									<i class="material-icons">add</i>
-								</a>
-							</div>
-						<div class="col s3 m3 l3"><span style="color: #fff;">DAIMS_EPMS</span></div>
+						<div class="col s12 m12 l12"><span style="color: #fff;">DAIMS_EPMS</span></div>
 					</div>
 
 					<div class="col s7 m7 l7" style="padding-top: 20px;">
+						<div class="col s2 m2 l2 right" style="padding-top: 35px;">
+						    <a href="${pageContext.request.contextPath }/admin/reqEpList" style="padding-top: 15px;">
+						      <i class="material-icons">menu</i>
+						    </a> 
+						    <a href="${pageContext.request.contextPath }/admin/reqEpCard" style="padding-top: 15px;">
+						      <i class="material-icons">apps</i>
+						    </a>
+					  	</div>
 						<div class="col s2 m2 l2 right">
 							<label>상태</label>
 							<div class="select-wrapper initialized">
-								<span class="caret">▼</span> <select class="initialized">
-									<option value="" disabled="disabled">상태</option>
-									<option value="1">대기중</option>
-									<option value="2">승인</option>
-									<option value="3">반려</option>
-									<option value="4">취소</option>
+								<!-- <span class="caret">▼</span>  -->
+								<select class="initialized" onchange="getApplyList()" id="state">
+									<option value="" >상태</option>
+									<option value="0" <c:if test="${state eq '0' }">selected</c:if>>대기중</option>
+									<option value="1" <c:if test="${state eq '1' }">selected</c:if>>승인</option>
+									<option value="2" <c:if test="${state eq '2' }">selected</c:if>>반려</option>
 								</select>
 							</div>
 						</div>
 						<div class="col s2 m2 l2 right">
 							<label>신청월</label>
 							<div class="select-wrapper initialized">
-								<span class="caret">▼</span> <select class="initialized">
-									<option value="" disabled="disabled">신청월</option>
-									<option value="1">1월</option>
-									<option value="2">2월</option>
-									<option value="3">3월</option>
-									<option value="4">4월</option>
-									<option value="5">5월</option>
-									<option value="6">6월</option>
-									<option value="7">7월</option>
-									<option value="8">8월</option>
-									<option value="9">9월</option>
-									<option value="10">10월</option>
-									<option value="11">11월</option>
-									<option value="12">12월</option>
+								<!-- <span class="caret">▼</span> -->
+								 <select class="initialized" onchange="getApplyList()" id="mt">
+<!-- 									<option value="" disabled="disabled">신청월</option> -->
+									<option value="" >신청월</option>
+									<c:forEach begin="1" end="12" varStatus="status">
+									<c:set value="${status.count }" var="cnt"/>
+										<c:if test="${cnt < 10 }">
+											<option value="0${cnt }" <c:if test="${mt eq  cnt }" >selected</c:if>>${cnt }월</option>
+										</c:if>
+										<c:if test="${cnt >= 10 }">
+											<option value="${cnt }" <c:if test="${mt eq  cnt }" >selected</c:if>>${cnt }월</option>
+										</c:if>
+									</c:forEach>
+									
 								</select>
 							</div>
 						</div>
@@ -76,155 +71,117 @@
             		</div> 
             		
 				</div>
-            	<!-- <div class="row" style="margin-bottom: 0px;">
-            		<div class="col s1 m1 l1">
-            			<span style="color: #fff">DAIMS_EMPS</span>
-            		</div>
-            		<div class="col s10 m10 l9">
-            			<span style="float: right !important; padding-top: 10px;">반려</span>
-            			<a class="btn-floating waves-effect waves-light red accent-2 right">
-								<i class="material-icons">history</i>
-						</a> 
-						<span style="float: right !important; padding-top: 10px; margin-right: 5px;">승인</span>
-						<a class="btn-floating waves-effect waves-light light-blue right" style="margin-left: 5px;">
-							<i class="material-icons">hourglass_full</i>
-						</a> 
-						<span style="float: right !important; padding-top: 10px;">대기중</span>
-						<a class="btn-floating waves-effect waves-light green accent-4 right">
-							<i class="material-icons">hourglass_empty</i>
-						</a> 
-            		</div>
-            		<div class="col s1 m1 l2">
-            			<span style="color: #fff">DAIMS_EMPS</span>
-            		</div>
-            	</div> -->
-				
+            
 				<!-- 메인화면 -->
-            		<div class="row" style="min-height: 597px;">
-						<div class="col s12 m6 l3">
-							<div class="product" style="width: 100%; min-height: 600px;">
-			                    <div class="card">
-			                        <div class="card-image waves-effect waves-block waves-light">
-			                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">6500원</a>
-			                            <a href="${pageContext.request.contextPath }/apply/view">
-			                            	<img src="${pageContext.request.contextPath }/images/productImg/PEPER.jpg" alt="product-img">
-			                            </a>
-			                        </div>
-			                        <ul class="card-action-buttons">
-					                    <li>
-					                    	<a class="btn-floating waves-effect waves-light green accent-4"  title="대기중">
-					                    		<i class="material-icons">hourglass_empty</i>
-					                    	</a>
-			                            </li>
-			                            <li>
-			                            	<a class="btn-floating waves-effect waves-light red accent-2" title="취소">
-			                            		<i class="material-icons" >highlight_off</i>
-			                            	</a>
-			                            </li>
-			                        </ul>
-			                        <div class="card-content">
-			                            <div class="row">
-			                                <div class="col s8">
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">페퍼민트허브차</a></p>
-			                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : 1</a></p>
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : 김허브</a></p>
-			                                </div>
-			                            </div>
-			                        </div>
-			                    </div>
-		                	</div>
-						</div>
+           		<div class="row" style="min-height: 597px;">
+					<div class="col s1 m1 l1"><span style="color: #fff;">DAIMS_EPMS</span></div>
+					<div class="col s10 m10 l10">
+						<table class="bordered">
+				<%-- 		<colgroup>
+				            <col width="20%" />
+				            <col width="5%" />
+				            <col width="10%" />
+				            <col width="5%" />
+				            <col width="20%" />
+				            <col width="*" />
+				            <col width="*" />
+				        </colgroup>
 
-						<div class="col s12 m6 l3">
-							<div class="product" style="width: 100%; min-height: 600px;">
-			                    <div class="card">
-			                        <div class="card-image waves-effect waves-block waves-light">
-			                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">6000원</a>
-			                            <a href="#">
-			                            	<img src="${pageContext.request.contextPath }/images/productImg/OKSUSU.png" alt="product-img">
-			                            </a>
-			                        </div>
-			                        <ul class="card-action-buttons">
-					                    <li>
-					                    	<a class="btn-floating waves-effect waves-light light-blue" title="승인">
-					                    		<i class="material-icons">hourglass_full</i>
-					                    	</a>
-			                            </li>
-			                        </ul>
-			                        <div class="card-content">
-			                            <div class="row">
-			                                <div class="col s8">
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">옥수수수염차</a></p>
-			                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : 1</a></p>
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : 옥수수</a></p>
-			                                </div>
-			                            </div>
-			                        </div>
-			                    </div>
-		                	</div>
-						</div>
-						
-						<div class="col s12 m6 l3">
-							<div class="product" style="width: 100%; min-height: 600px;">
-			                    <div class="card">
-			                        <div class="card-image waves-effect waves-block waves-light">
-			                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">5000원</a>
-			                            <a href="#"><img src="${pageContext.request.contextPath }/images/productImg/DUNG.jpg" alt="product-img">
-			                            </a>
-			                        </div>
-			                        <ul class="card-action-buttons">
-					                    <li>
-					                    	<a class="btn-floating waves-effect waves-light light-blue" title="승인">
-					                    		<i class="material-icons">hourglass_full</i>
-					                    	</a>
-			                            </li>
-			                        </ul>
-			                        <div class="card-content">
-			                            <div class="row">
-			                                <div class="col s8">
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">둥글레차</a></p>
-			                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : 1</a></p>
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : 둥글레</a></p>
-			                                </div>
-			                            </div>
-			                        </div>
-			                    </div>
-		                	</div>
-						</div>
-						
-						<div class="col s12 m6 l3">
-							<div class="product" style="width: 100%; min-height: 600px;">
-			                    <div class="card">
-			                        <div class="card-image waves-effect waves-block waves-light">
-			                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">15000원</a>
-			                            <a href="#"><img src="${pageContext.request.contextPath }/images/productImg/HOT.jpg" alt="product-img">
-			                            </a>
-			                        </div>
-			                        <ul class="card-action-buttons">
-					                    <li><a class="btn-floating waves-effect waves-light red accent-2" title="반려"><i class="material-icons" >history</i></a>
-			                            </li>
-			                            <li><a class="btn-floating waves-effect waves-light red accent-2" title="취소"><i class="material-icons">highlight_off</i></a>
-			                            </li>
-			                            <li><a class="btn-floating waves-effect waves-light light-blue" title="반려사유"><i class="material-icons activator">info_outline</i></a>
-			                            </li> 
-			                        </ul>
-			                        <div class="card-content">
-			                            <div class="row">
-			                                <div class="col s8">
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">핫초코</a>
-			                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : 2</a>
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : 이유라</a>
-			                                    </p>
-			                                </div>
-			                            </div>
-			                        </div>
-			                         <div class="card-reveal">
-			                            <span class="card-title grey-text text-darken-4" style="border-bottom: solid 1px black;"><i class="material-icons right">highlight_off</i>반려사유</span>
-			                            <p>아직 많이 남아있으며 먹는사람이 많지않음.</p>
-			                        </div> 
-			                    </div>
-		                	</div>
-						</div>
+						 --%>
+							<thead>
+								<tr>
+									<th>비품명</th>
+									<th>분류</th>
+									<th>가격</th>
+									<th>수량</th>
+									<th>요청일</th>
+									<th>상태</th>
+									<th>반려사유</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:if test="${reqList !=null }">
+									<c:forEach items="${reqList }" var="list" varStatus="status">
+									<c:set value="${list.epState }" var="epState"/>
+									<c:set value="${list.epType }" var="epType"/>
+										<tr>
+										<td width="20%">${list.epNm }</td>
+										<c:if test="${epType == 0 }">
+												<td width="8%">식.음료</td>
+											</c:if>
+											<c:if test="${epType == 1 }">
+												<td width="8%">생활용품</td>
+											</c:if>
+											<c:if test="${epType == 2 }">
+												<td width="8%">사무용품</td>
+											</c:if>
+											<c:if test="${epType == 3 }">
+												<td width="8%">기타</td>
+											</c:if>
+										<td  width="10%" style="padding-left: 10px;">${list.epTtPrice }원</td>
+										<td  width="5%">${list.epCnt }개</td>
+										<td  width="20%">${list.insertDt }</td>
+										<c:if test="${epState eq '0' }">
+										<td width="10%">
+											<div class="select-wrapper initialized" style="max-height: 35px;">
+												<select class="initialized" onchange="listUpdateState(${list.epId })" id="state${list.epId }">
+													<option value="0" <c:if test="${epState eq '0' }">selected</c:if>>대기중</option>
+													<option value="1" <c:if test="${epState eq '1' }">selected</c:if>>승인</option>
+													<option value="2" <c:if test="${epState eq '2' }">selected</c:if>>반려</option>
+													<option value="3" <c:if test="${epState eq '3' }">selected</c:if>>취소</option>
+												</select>
+											</div>
+										</td>
+										</c:if>
+										<c:if test="${epState eq '1' }">
+										<td width="10%">
+											<div class="select-wrapper initialized" style="max-height: 35px;">
+												<select class="initialized" disabled="disabled">
+													<option value="0"   <c:if test="${epState eq '0' }">selected</c:if>>대기중</option>
+													<option value="1"   <c:if test="${epState eq '1' }">selected</c:if>>승인</option>
+													<option value="2"   <c:if test="${epState eq '2' }">selected</c:if>>반려</option>
+													<option value="3"   <c:if test="${epState eq '3' }">selected</c:if>>취소</option>
+												</select>
+											</div>
+										</td>
+										</c:if>
+										<c:if test="${epState eq '2' }">
+										<td width="10%">
+											<div class="select-wrapper initialized" style="max-height: 35px;">
+												<select class="initialized" disabled="disabled">
+													<option value="0"  <c:if test="${epState eq '0' }">selected</c:if>>대기중</option>
+													<option value="1" <c:if test="${epState eq '1' }">selected</c:if>>승인</option>
+													<option value="2" <c:if test="${epState eq '2' }">selected</c:if>>반려</option>
+													<option value="3" <c:if test="${epState eq '3' }">selected</c:if>>취소</option>
+												</select>
+											</div>
+										</td>
+										</c:if>
+										<c:if test="${epState eq '3' }">
+										<td width="10%">
+											<div class="select-wrapper initialized" style="max-height: 35px;">
+												<select class="initialized" disabled="disabled">
+													<option value="0"<c:if test="${epState eq '0' }">selected</c:if>>대기중</option>
+													<option value="1"   <c:if test="${epState eq '1' }">selected</c:if>>승인</option>
+													<option value="2"  <c:if test="${epState eq '2' }">selected</c:if>>반려</option>
+													<option value="3"  <c:if test="${epState eq '3' }">selected</c:if>>취소</option>
+												</select>
+											</div>
+										</td>
+										</c:if>
+										<td style="padding-left: 10px;">${list.cause }</td>
+										</tr>
+									</c:forEach>
+								</c:if>
+								<c:if test="${reqList == '[]' || reqList == null }">
+								<tr>
+									<td colspan="7">요청 비품 목록이 없습니다.</td>
+								</tr>
+								</c:if>
+							</tbody>
+						</table>
+					</div>
+					<div class="col s1 m1 l1"><span style="color: #fff;">DAIMS_EPMS</span></div>            		
 				</div>
             </section>
 
@@ -239,6 +196,7 @@
     Scripts
     ================================================ -->
     <jsp:include page="../../common/common.jsp" flush="false"/>
+     <script type="text/javascript" src="${pageContext.request.contextPath}/js/script/req.js"></script>
 </body>
 
 </html>
