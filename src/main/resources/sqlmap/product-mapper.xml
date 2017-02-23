@@ -91,6 +91,7 @@
 		 <if test="name != null and name != ''">
 		 	AND EP.EP_NM LIKE  '%' || #{name} || '%'
 		 </if>
+		 ORDER BY EP.INSERT_DT DESC 
 	</select>
 	
 	<select id="getEpCard" resultMap="productResult">
@@ -108,10 +109,24 @@
 		WHERE EP.EP_USE_YN = 'Y'
 		 <if test="type != null and type != ''">
 	 		AND EP.EP_TYPE = #{type}
-	 </if>
-	 <if test="name != null and name != ''">
-	 		AND EP.EP_NM LIKE  '%' || #{name} || '%'
-	 </if>
+		 </if>
+		 <if test="name != null and name != ''">
+		 		AND EP.EP_NM LIKE  '%' || #{name} || '%'
+		 </if>
+		 ORDER BY EP.INSERT_DT DESC
+		</select>
+	
+	<select id="getProductInfo" parameterType="int" resultMap="productResult">
+		SELECT   EP.EP_ID,          
+		               EP.EP_NM,          
+		               EP.EP_TYPE,          
+		               EP.EP_PRICE,         
+		               F.FILE_ID,			
+                       F.REAL_NM	       
+         FROM   EPMS_EPMENT EP LEFT OUTER JOIN EPMS_FILE_EP FE ON EP.EP_ID = FE.EP_ID                        
+	  	       					    	       		 LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID                              
+	   WHERE   EP.EP_USE_YN = 'Y'
+            AND   EP.EP_ID = #{epId}		
 	</select>
 	
 	<select id="getEpId" resultType="int">
@@ -125,11 +140,41 @@
 	</select>
 	
 	<update id="deleteEp" parameterType="hashmap">
-	UPDATE EPMS_EPMENT
-		   SET EP_USE_YN = 'N'
-			   , EP_DLT_MEM_ID = #{memId}
-			   , DELETE_DT = sysdate
-	WHERE EP_ID = #{epId}
+		UPDATE EPMS_EPMENT
+			   SET EP_USE_YN = 'N'
+				   , EP_DLT_MEM_ID = #{memId}
+				   , DELETE_DT = sysdate
+		WHERE EP_ID = #{epId}
 	</update>
+	
+	<update id="updateProduct" parameterType="ProductVO">
+		UPDATE EPMS_EPMENT
+			   SET EP_TYPE = #{epType}
+				      ,EP_NM = #{epNm}
+				      ,EP_PRICE = #{epPrice}
+				      ,EP_UST_MEM_ID = #{epUstMemId}
+				      ,UPDATE_DT = sysdate
+		WHERE EP_ID = #{epId}	
+	</update>
+	
+	<update id="updateProductImg"  parameterType="hashmap">
+		UPDATE EPMS_FILE
+			   SET REAL_NM = #{realNm}
+				     , FILE_PATH = #{filePath}
+				     , CHANGE_NM = #{changeNm}
+				     , UPDATE_DT = sysdate
+			WHERE FILE_ID = #{fileId}
+	</update>
+	
+	<update id="editEpImg" parameterType="hashmap">
+	UPDATE EPMS_FILE_EP
+ 		    SET FILE_ID = #{fileId}
+	 WHERE EP_ID = #{epId}
+ </update>
+	
+	
+	
+	
+	
 	
 </mapper>

@@ -15,6 +15,7 @@
             <section id="content">
             	<!--  +  and select  -->
             	<jsp:include page="../modal/addApplyModal.jsp" flush="false"/>
+            	<jsp:include page="../modal/editApplyModal.jsp" flush="false"/>
             	
   				<div id="input-select" class="row" style="margin-bottom: 0px;">
 					<div class="col s1 m1 l1">
@@ -81,18 +82,19 @@
 					                    <div class="card">
 					                        <div class="card-image waves-effect waves-block waves-light">
 					                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2"><c:out value="${list.epTtPrice }"/>원</a>
-					                            <a href="${pageContext.request.contextPath }/apply/view">
+<%-- 					                            <a href="${pageContext.request.contextPath }/apply/view"> --%>
 					                            	<c:if test="${list.fileId !=null && list.fileId != '' }">
 					                            		<img alt="product-img" src="${pageContext.request.contextPath }/product/img?fileId=${list.fileId}">
 					                            	</c:if>
 					                            	<c:if test="${list.fileId ==null || list.fileId == '' }">
 					                            		<img src="${pageContext.request.contextPath }/images/productImg/tempImg.jpg" >
 					                            	</c:if>
-					                            </a>
+					                            <!-- </a> -->
 					                        </div>
 					                        <c:set value="${list.epState }" var="epState"/>
 					                        <c:if test="${epState eq 0 }">
-						                        <ul class="card-action-buttons">
+						                        <ul class="card-action-buttons" style="padding-top: 30px;">
+								                    <li><a class="btn-floating waves-effect waves-light #424242 grey darken-3"  title="수정" onclick="editApply(${list.epId});"><i class="material-icons">border_color</i></a></li>
 								                    <li><a class="btn-floating waves-effect waves-light green accent-4"  title="대기중"><i class="material-icons">hourglass_empty</i></a></li>
 						                            <li><a class="btn-floating waves-effect waves-light red accent-2" title="취소" onclick="cancelApply(${list.epId});"><i class="material-icons" >highlight_off</i></a></li>
 						                        </ul>
@@ -107,7 +109,7 @@
 						                        </div>
 					                        </c:if>
 					                        <c:if test="${epState eq 1 }">
-						                        <ul class="card-action-buttons">
+						                        <ul class="card-action-buttons" style="padding-top: 30px;">
 								                    <li><a class="btn-floating waves-effect waves-light light-blue" title="승인"><i class="material-icons">hourglass_full</i></a></li>
 						                        </ul>
 						                        <div class="card-content">
@@ -121,7 +123,7 @@
 						                        </div>
 					                        </c:if>
 					                        <c:if test="${epState eq 2 }">
-						                        <ul class="card-action-buttons">
+						                        <ul class="card-action-buttons" style="padding-top: 30px;">
 						                           <li><a class="btn-floating waves-effect waves-light red accent-2" title="반려"><i class="material-icons" >history</i></a></li>
 						                            <li><a class="btn-floating waves-effect waves-light red accent-2" title="취소" onclick="cancelApply(${list.epId});"><i class="material-icons">highlight_off</i></a></li>
 						                            <li><a class="btn-floating waves-effect waves-light light-blue" title="반려사유"><i class="material-icons activator">info_outline</i></a></li>
@@ -140,47 +142,11 @@
 					                            	<p> ${list.cause} </p>
 					                        	</div> 
 					                        </c:if>
-					                        
-					                        
-					                        
-					                        
 					                    </div>
 				                	</div>
 								</div>
             				</c:forEach>
             			</c:if>
-<%-- 
-						<div class="col s12 m6 l3">
-							<div class="product" style="width: 100%; min-height: 600px;">
-			                    <div class="card">
-			                        <div class="card-image waves-effect waves-block waves-light">
-			                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">6000원</a>
-			                            <a href="#">
-			                            	<img src="${pageContext.request.contextPath }/images/productImg/OKSUSU.png" alt="product-img">
-			                            </a>
-			                        </div>
-			                        <ul class="card-action-buttons">
-					                    <li>
-					                    	<a class="btn-floating waves-effect waves-light light-blue" title="승인">
-					                    		<i class="material-icons">hourglass_full</i>
-					                    	</a>
-			                            </li>
-			                        </ul>
-			                        <div class="card-content">
-			                            <div class="row">
-			                                <div class="col s8">
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">옥수수수염차</a></p>
-			                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : 1</a></p>
-			                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : 옥수수</a></p>
-			                                </div>
-			                            </div>
-			                        </div>
-			                    </div>
-		                	</div>
-						</div> --%>
-						
-
-
 				</div>
             </section>
 

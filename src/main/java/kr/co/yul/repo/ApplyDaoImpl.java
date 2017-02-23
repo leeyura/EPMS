@@ -48,7 +48,18 @@ public class ApplyDaoImpl implements ApplyDao{
 		cnt = sql.update("apply.cancelApply", map);
 		return cnt;
 	}
+	
+	@Override
+	public int editApply(ApplyVO vo) throws SQLException {
+		int cnt = 0;
+		cnt = sql.update("apply.updateApply", vo);
+		return cnt;
+	}
 
-	
-	
+	@Override
+	public ApplyVO getApplyInfo(int epId) throws SQLException {
+		ApplyVO vo = null;
+		vo = sql.selectOne("apply.applyInfo", epId); 
+		return vo;
+	}
 }

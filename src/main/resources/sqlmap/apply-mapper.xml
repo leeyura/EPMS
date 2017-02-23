@@ -31,6 +31,7 @@
 		<result property="memUdtId" column="MEM_UDT_ID"/>
 		<result property="epCnt" column="EP_CNT"/>
 		<result property="epTtPrice" column="EP_TT_PRICE"/>
+		<result property="epPrice" column="EP_PRICE"/>
 		<result property="insertDt" column="INSERT_DT"/>
 		<result property="deleteDt" column="DELETE_DT"/>
 		<result property="cause" column="S_CAUSE" />
@@ -63,8 +64,6 @@
 								                          )
 	</insert>
 	
-	
-	<!--  밥먹고 하기. 검색. -->
 	<select id="getApllyList" resultMap="applyResult" parameterType="hashmap">
 		SELECT ME.MEM_ID,
 			         ME.EP_ID,
@@ -98,9 +97,24 @@
 		  WHERE EP_ID = #{epId}
 	</update>
 	
+	<select id="applyInfo" parameterType="int" resultMap="applyResult">
+		SELECT ME.EP_ID,
+		  			 ME.EP_CNT,
+			         EE.EP_TYPE,
+			         EE.EP_NM,
+			         EE.EP_PRICE
+		 FROM EPMS_MEM_EP ME  LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
+	   WHERE ME.EP_ID = #{epId}
+	</select>
 	
-	
-	
+	<update id="updateApply" parameterType="ApplyVO">
+	UPDATE EPMS_MEM_EP
+		   SET  EP_CNT = #{epCnt},
+			       EP_TT_PRICE = #{epTtPrice},
+			       MEM_UDT_ID = #{memUdtId},
+			       UPDATE_DT = sysdate
+	 WHERE EP_ID = #{epId}
+	</update>
 	
 
 </mapper>

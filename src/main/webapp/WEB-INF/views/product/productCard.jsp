@@ -16,11 +16,9 @@
 
           <jsp:include page="../layout/menu.jsp" flush="false"/>
      <section id="content" style="min-height: 715px;">
-     
-                 
+
             <!-- add Modal -->
             <jsp:include page="../modal/addProductModal.jsp" flush="false"/>
-            <!-- edit Modal -->
             <jsp:include page="../modal/editProductModal.jsp" flush="false"/>
 			<!-- modal 끝 -->
 			
@@ -41,18 +39,18 @@
 					
 					<div class="col s6 m6 l6 right" style="display: flex;padding-top: 20px;padding-left: 0px;padding-bottom: -5;">
                        	<form method="get" action="${pageContext.request.contextPath }/product/card" >
-	                       	<input class="input-field col s10 m10 l10" type="text" placeholder="비품명" style="margin-left: 0px;"  name="name">
+	                       	<input class="input-field col s10 m10 l10" type="text" placeholder="비품명" style="margin-left: 0px;"  name="name" value="${name }">
 	                      	<i class="material-icons  right" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">search</i> 
                        	</form>
                       
 						<div class="select-wrapper initialized" style="margin-right: 20px;">
 							<span class="caret">▼</span> 
 							<select class="initialized" id="type" onchange="getCards()">
-								<option value="" disabled="disabled">분류</option>
-								<option value="0">식.음료</option>
-								<option value="1">생활용품</option>
-								<option value="1">사무용품</option>
-								<option value="3">기타</option>
+								<option value="" selected="selected">분류</option>
+								<option value="0" <c:if test="${type eq '0' }">selected</c:if>>식.음료</option>
+								<option value="1" <c:if test="${type eq '1' }">selected</c:if>>생활용품</option>
+								<option value="2" <c:if test="${type eq '2' }">selected</c:if>>사무용품</option>
+								<option value="3" <c:if test="${type eq '3' }">selected</c:if>>기타</option>
 							</select>
 						</div>
 						
@@ -74,13 +72,8 @@
 							<div class="card">
 								<div class="card-image waves-effect waves-block waves-light">
 									<a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">${list.epPrice }원</a>
-									<a onclick="showEditModal(${list.epId});">
-										<i class="material-icons right" style="position: absolute; z-index: 1; top: 5px; left: 0px; min-height: 100%; margin-left: 83%; text-decoration: none; color: black">border_color</i>
-									</a>
-									<a href="#">
+										<i class="material-icons right" style="position: absolute; z-index: 1; top: 5px; left: 0px; min-height: 100%; margin-left: 80%; text-decoration: none; color: black"  onclick="updateProduct(${list.epId});">border_color</i>
 										<i class="material-icons right" style=" position: absolute; z-index: 1; top: 5px; left: 20px; min-height: 100%; margin-left: 83%; text-decoration: none; color: black" onclick="removeProduct(${list.epId});">highlight_off</i>
-									</a>
-									<a href="${pageContext.request.contextPath }/product/view">
 									<c:if test="${list.realNm != null && list.realNm != '' }">
 <%-- 										<img src="${list.filePath }/${list.realNm}" > --%>
 												<img alt="" src="${pageContext.request.contextPath }/product/img?fileId=${list.fileId}">
@@ -88,7 +81,6 @@
 									<c:if test="${list.realNm == null || list.realNm == '' }">
 										<img src="${pageContext.request.contextPath }/images/productImg/tempImg.jpg" >
 									</c:if>
-									</a> 
 								</div>
 								<div class="card-content">
 									<div class="row">

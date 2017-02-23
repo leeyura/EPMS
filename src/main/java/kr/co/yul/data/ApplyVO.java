@@ -15,6 +15,7 @@ public class ApplyVO {
 	private int epCnt;
 	private String epType;
 	private int epTtPrice;
+	private int epPrice;
 	private String etc;
 	private String insertDt;
 	private Date deleteDt;

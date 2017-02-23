@@ -41,10 +41,11 @@ public class FileUtils {
             	realNm = multipartFile.getOriginalFilename();
                  
                 file = new File(filePath +"\\" +realNm);
-                
-                multipartFile.transferTo(file);
-                 
-                
+
+                boolean isExists = file.exists();
+                if (!isExists) {
+                	multipartFile.transferTo(file);
+				}
                 
                 listMap = new HashMap<String,Object>();
                 listMap.put("realNm", realNm);

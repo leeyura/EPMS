@@ -90,7 +90,7 @@
 					                        </div>
 					                        <c:set value="${list.epState }" var="epState"/>
 					                        <c:if test="${epState eq 0 }">
-						                        <ul class="card-action-buttons">
+						                        <ul class="card-action-buttons" style="padding-top: 30px;">
 								                    <li><a class="btn-floating waves-effect waves-light green accent-4"  title="승인" onclick="cardOkState(${list.epId });" data-id="1" id="stateOk"><i class="material-icons">done</i></a></li>
 						                            <li><a class="btn-floating waves-effect waves-light red accent-2" title="반려" onclick="cardNoState(${list.epId });" data-id="2" id="stateNO"><i class="material-icons" >cached</i></a></li>
 						                        </ul>
@@ -105,7 +105,7 @@
 						                        </div>
 					                        </c:if>
 					                        <c:if test="${epState eq 1 }">
-						                        <ul class="card-action-buttons">
+						                        <ul class="card-action-buttons" style="padding-top: 30px;">
 								                    <li><a class="btn-floating waves-effect waves-light light-blue" title="승인"><i class="material-icons">done</i></a></li>
 						                        </ul>
 						                        <div class="card-content">
@@ -119,7 +119,7 @@
 						                        </div>
 					                        </c:if>
 					                        <c:if test="${epState eq 2 }">
-						                        <ul class="card-action-buttons">
+						                        <ul class="card-action-buttons" style="padding-top: 30px;">
 						                           <li><a class="btn-floating waves-effect waves-light red accent-2" title="반려"><i class="material-icons" >cached</i></a></li>
 						                            <li><a class="btn-floating waves-effect waves-light light-blue" title="반려사유"><i class="material-icons activator">info_outline</i></a></li>
 						                        </ul>
@@ -138,7 +138,7 @@
 					                        	</div> 
 					                        </c:if>
 					                        <c:if test="${epState eq 3 }">
-						                        <ul class="card-action-buttons">
+						                        <ul class="card-action-buttons" style="padding-top: 30px;">
 								                    <li><a class="btn-floating waves-effect waves-light red accent-2" title="취소" onclick="cancelApply(${list.epId});"><i class="material-icons">highlight_off</i></a></li>
 						                        </ul>
 						                        <div class="card-content">

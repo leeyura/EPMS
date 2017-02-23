@@ -1,8 +1,8 @@
  $(function(){
     	
     	 // $('#epNm option:selected')[0].dataset.id
+	 var epCntPattern = /^[0-9]*$/; 
 	 $('#addBtn').on('click', function(){
-		 var epCntPattern = /^[0-9]*$/; 
 		 if($('#type').val() == ""){
 			 swal("비품분류를 선택해주세요",  "비품분류는 필수요소입니다.","error");
 			 $('#epType').focus();
@@ -28,13 +28,24 @@
 		 var price = $('#epNm option:selected')[0].dataset.id;
 		 $('#epPrice').val(price);
 		 
-		 console.log(type);
-		 console.log(epId);
-		 console.log(epCnt);
-		 console.log(price);
-		 
 		 addApply(type, epId, epCnt, price);
 	 })
+	 
+	 $('#editBtn').on('click', function(){
+		 if($('#editEpCnt').val() == ""){
+			 swal("비품수량을 입력해주세요",  "비품수량은 필수요소입니다.","error");
+			 $('#editEpCnt').focus();
+			 return false;
+		 }else if(!epCntPattern.test($('#editEpCnt').val())){
+			 swal("비품수량을 확인해주세요",  "숫자로 입력해주세요.","error");
+			 $('#editEpCnt').focus();
+			 return false;
+		 }
+		 	
+		 goEditApply();
+	 });
+	 
+	 
  });
  
 
@@ -122,6 +133,40 @@
 	 
  }
  
+ function goEditApply(){
+	 var path = $('#path').val();
+	 $.ajax({
+         url: path+"/apply/editApply",
+         method: "POST",
+         data: {
+      	   epId : $('#editEpId').val(),
+           epCnt : $('#editEpCnt').val(),
+           price : $('#editEpPrice').val()
+         },
+         error:function(error){
+      	   swal("Cancelled", "수정에 실패하였습니다", "error");   
+         },
+         success:function(data){
+        	 if(data == "ok"){
+        	 	   swal({   title: "수정",   
+                       text: "수정이 완료되었습니다",   
+                       type: "success",   showCancelButton: true,   
+                       closeOnConfirm: false,   
+                       showLoaderOnConfirm: true, }, 
+                       function(){   
+                           setTimeout(function(){     swal("Ajax request finished!");   }, 2000);
+                           location.reload();
+                  });
+        		 /*
+        		 swal("수정", "수정이 완료되었습니다.", "success");   
+        		 $(".modal").closeModal();*/
+        	 }else{
+        		 swal("Cancelled", "수정에 실패하였습니다.", "error");   
+        	 }
+         }
+     })
+ }
+ 
  function getApplyList(){
 	 var path = $('#path').val();
 	 var mt =$('#mt option:selected').val();
@@ -169,3 +214,39 @@
                  swal("Fail", "삭제에 실패하였습니다. :)", "error");   } 
         });
  }
+
+function editApply(epId){
+	 var path = $('#path').val();
+	 // 수정창 초기화
+	$('#editEpType').val("");
+	$('#editEpNm').val("");
+	$('#editEpCnt').val("");
+	$('#editEpPrice').val("");
+	$('#editEpId').val("");
+	
+	 $.ajax({
+         url: path+"/apply/editApply",
+         method: "GET",
+         data: {
+      	   epId : epId
+         },
+         error:function(error){
+      	   swal("Cancelled", "정보를 가져오는데 실패하였습니다. :)", "error");   
+         },
+         success:function(data){
+        	 if(data != null){
+        		 $('#editEpType').val(data.epType);
+        		 $('#editEpNm').val(data.epNm);
+        		 $('#editEpCnt').val(data.epCnt);
+        		 $('#editEpPrice').val(data.epPrice);
+        		 $('#editEpId').val(data.epId);
+        		 
+        		 $(".modal").openModal(); $('#addApplyModal').hide(); 
+        	 }else{
+        		 swal("Cancelled", "정보를 가져오는데 실패하였습니다. :)", "error");   
+        	 }
+         }
+     })
+	
+	
+} 

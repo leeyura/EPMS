@@ -15,7 +15,7 @@
             
             <!-- add Modal -->
             <jsp:include page="../modal/addProductModal.jsp" flush="false"/>
-            
+            <jsp:include page="../modal/editProductModal.jsp" flush="false"/>
 			<!-- modal 끝 -->
             
 	            <div id="input-select" class="row" style="margin-bottom: 0px;">
@@ -32,7 +32,7 @@
 					</div>
 					<div class="col s6 m6 l6 right" style="display: flex;padding-top: 20px;padding-left: 0px;padding-bottom: -5;">
                        	<form method="get" action="${pageContext.request.contextPath }/product/list" >
-	                       	<input class="input-field col s10 m10 l10" type="text" placeholder="비품명" style="margin-left: 0px;"  name="name">
+	                       	<input class="input-field col s10 m10 l10" type="text" placeholder="비품명" style="margin-left: 0px;"  name="name" value="${name }">
 	                      	<i class="material-icons  right" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">search</i> 
                        	</form>
                       	
@@ -40,10 +40,10 @@
 							<span class="caret">▼</span> 
 							<select class="initialized" id="type" onchange="getList()">
 								<option value="" selected="selected">분류</option>
-								<option value="0">식.음료</option>
-								<option value="1">생활용품</option>
-								<option value="2">사무용품</option>
-								<option value="3">기타</option>
+								<option value="0" <c:if test="${type eq '0' }">selected</c:if>>식.음료</option>
+								<option value="1" <c:if test="${type eq '1' }">selected</c:if>>생활용품</option>
+								<option value="2" <c:if test="${type eq '2' }">selected</c:if>>사무용품</option>
+								<option value="3" <c:if test="${type eq '3' }">selected</c:if>>기타</option>
 							</select>
 						</div>
 						
@@ -101,7 +101,7 @@
 											</c:if>
 											<td>${list.memNm }</td>
 											<td>
-						                        <a href="${pageContext.request.contextPath}/product/view" style="text-decoration: none; color: black; "><i class="material-icons" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">border_color</i></a>
+						                        	<i class="material-icons" style="padding-top: 15px; margin-left: 0px; cursor: pointer;" onclick="updateProduct(${list.epId});">border_color</i>
 					                          </td>
 					                          <td>
 						                          <i class="material-icons" style="padding-top: 15px; margin-left: 0px; cursor: pointer;" onclick="removeProduct(${list.epId});">delete_forever</i>

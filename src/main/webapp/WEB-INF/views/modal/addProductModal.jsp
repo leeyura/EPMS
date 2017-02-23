@@ -38,15 +38,10 @@
 			        </div>
 			        <div class="row margin">
 			          <div class="input-field col s12">
-			            <input id="epEtc" type="text" placeholder="비고" name="epEtc" value="">
-			          </div>
-			        </div>
-			        <div class="row margin">
-			          <div class="input-field col s12">
 			            <div class="file-field input-field">
 		                        <div class="btn">
-		                          <span>File</span>
-		                           <input type="file" name="file" value="">
+		                          <span>첨부이미지</span>
+		                           <input type="file" name="file" value="" id="file">
 		                        </div>
 		                        <div class="file-path-wrapper">
 		                          <input class="file-path validate" type="text" placeholder="Upload file">

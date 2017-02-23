@@ -35,22 +35,20 @@
 						<div class="col s2 m2 l2 right">
 							<label>상태</label>
 							<div class="select-wrapper initialized">
-								<!-- <span class="caret">▼</span>  -->
-								<select class="initialized" onchange="getApplyList()" id="state">
+								<select class="initialized" onchange="getReqList()" id="state">
 									<option value="" >상태</option>
 									<option value="0" <c:if test="${state eq '0' }">selected</c:if>>대기중</option>
 									<option value="1" <c:if test="${state eq '1' }">selected</c:if>>승인</option>
 									<option value="2" <c:if test="${state eq '2' }">selected</c:if>>반려</option>
+									<option value="3" <c:if test="${state eq '3' }">selected</c:if>>취소</option>
 								</select>
 							</div>
 						</div>
 						<div class="col s2 m2 l2 right">
-							<label>신청월</label>
+							<label>요청월</label>
 							<div class="select-wrapper initialized">
-								<!-- <span class="caret">▼</span> -->
-								 <select class="initialized" onchange="getApplyList()" id="mt">
-<!-- 									<option value="" disabled="disabled">신청월</option> -->
-									<option value="" >신청월</option>
+								 <select class="initialized" onchange="getReqList()" id="mt">
+									<option value="" >요청월</option>
 									<c:forEach begin="1" end="12" varStatus="status">
 									<c:set value="${status.count }" var="cnt"/>
 										<c:if test="${cnt < 10 }">
@@ -121,10 +119,9 @@
 										<td  width="10%" style="padding-left: 10px;">${list.epTtPrice }원</td>
 										<td  width="5%">${list.epCnt }개</td>
 										<td  width="20%">${list.insertDt }</td>
-										<c:if test="${epState eq '0' }">
 										<td width="10%">
 											<div class="select-wrapper initialized" style="max-height: 35px;">
-												<select class="initialized" onchange="listUpdateState(${list.epId })" id="state${list.epId }">
+												<select class="initialized" onchange="listUpdateState(${list.epId })" id="state${list.epId }"<c:if test="${epState ne '0' }"> disabled="disabled"</c:if>>
 													<option value="0" <c:if test="${epState eq '0' }">selected</c:if>>대기중</option>
 													<option value="1" <c:if test="${epState eq '1' }">selected</c:if>>승인</option>
 													<option value="2" <c:if test="${epState eq '2' }">selected</c:if>>반려</option>
@@ -132,8 +129,7 @@
 												</select>
 											</div>
 										</td>
-										</c:if>
-										<c:if test="${epState eq '1' }">
+									<%-- 	<c:if test="${epState eq '1' }">
 										<td width="10%">
 											<div class="select-wrapper initialized" style="max-height: 35px;">
 												<select class="initialized" disabled="disabled">
@@ -168,7 +164,7 @@
 												</select>
 											</div>
 										</td>
-										</c:if>
+										</c:if> --%>
 										<td style="padding-left: 10px;">${list.cause }</td>
 										</tr>
 									</c:forEach>

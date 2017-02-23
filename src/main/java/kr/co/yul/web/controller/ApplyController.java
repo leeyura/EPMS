@@ -146,6 +146,45 @@ public class ApplyController {
 		return result;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value ="/editApply", method=RequestMethod.GET)
+	public ApplyVO editApplyInfo(@RequestParam String epId , HttpSession session) throws NumberFormatException, SQLException{
+		ApplyVO vo = new ApplyVO();
+		 
+		if(session.getAttribute("id") == null){
+			vo = null;
+		}else{
+			vo = dao.getApplyInfo(Integer.parseInt(epId));
+		}
+		return vo ;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value ="/editApply", method=RequestMethod.POST)
+	public String editApply( HttpSession session , @RequestParam String epId,
+			                                      @RequestParam String epCnt, @RequestParam String price ) throws NumberFormatException, SQLException{
+		
+		
+		ApplyVO vo = new ApplyVO();
+		String result = "";
+		if(session.getAttribute("id")== null){
+			result = "no";
+		}else{
+			vo.setEpId(Integer.parseInt(epId));
+			vo.setMemUdtId(Integer.parseInt(session.getAttribute("id").toString()));
+			vo.setEpCnt(Integer.parseInt(epCnt));
+			vo.setEpTtPrice(Integer.parseInt(epCnt)*Integer.parseInt(price));
+			
+			try {
+				dao.editApply(vo);
+				result = "ok";
+			} catch (SQLException e) {
+				result = "no";
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
 	
 	

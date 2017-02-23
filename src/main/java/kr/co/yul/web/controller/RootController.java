@@ -91,7 +91,8 @@ public class RootController {
 			
 		}else{
 			mav = new ModelAndView();
-			mav.setViewName("login/login");
+
+
 			mav.addObject("emptyInfo", "계정이 없으시면 가입후 이용해 주세요.");
 		}
 		return mav;

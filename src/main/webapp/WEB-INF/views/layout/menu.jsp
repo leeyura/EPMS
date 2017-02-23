@@ -59,7 +59,7 @@
 	                        </li>
 	                    </ul>
 	                </li>
-	                <li class="bold"><a href="${pageContext.request.contextPath }/admin/userMgrList" class="waves-effect waves-cyan"><i class="material-icons">insert_emoticon</i> 계정</a>
+	                <%-- <li class="bold"><a href="${pageContext.request.contextPath }/admin/userMgrList" class="waves-effect waves-cyan"><i class="material-icons">insert_emoticon</i> 계정</a> --%>
 	                <li class="bold"><a href="${pageContext.request.contextPath }/admin/reqEpList" class="waves-effect waves-cyan"><i class="material-icons">assignment_return</i> 요청비품목록</a>
                 </c:if>
                 

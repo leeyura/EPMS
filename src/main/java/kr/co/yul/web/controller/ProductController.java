@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -151,8 +152,8 @@ public class ProductController {
 	
 @RequestMapping(value="/addProduct")
 	public ModelAndView addNewProduct(HttpServletRequest req, HttpServletResponse res, HttpSession session, 
-																		@RequestParam String epType, @RequestParam String epName, @RequestParam String epPrice , 
-			                                                            @RequestParam String epEtc, @RequestParam("file")MultipartFile file) throws Exception {
+																		@RequestParam String epType, @RequestParam String epName,
+																		@RequestParam String epPrice , @RequestParam("file")MultipartFile file) throws Exception {
 	ModelAndView mav =  new ModelAndView("redirect:/product/list");
 
 	ProductVO productVo = new ProductVO();
@@ -174,7 +175,48 @@ public class ProductController {
 		return mav;
 	}
 
+	@RequestMapping(value="/editProduct", method=RequestMethod.POST)
+	public ModelAndView editProducts(HttpServletRequest req, HttpSession session,
+			                                                     @RequestParam String epType, @RequestParam String epId, @RequestParam String epPrice, @RequestParam String epName,
+			                                                     @RequestParam ("file")MultipartFile file, @RequestParam String fileId, @RequestParam String editFileNm) throws Exception{
+		ModelAndView mav =  new ModelAndView("redirect:/product/list");
+		
+		ProductVO vo = new ProductVO();
 
+		vo.setEpId(Integer.parseInt(epId));
+		vo.setEpType(epType);
+		vo.setEpNm(epName);
+		vo.setEpPrice(Integer.parseInt(epPrice));
+		vo.setEpUstMemId(Integer.parseInt(session.getAttribute("id").toString()));
+		if(!fileId.equals("")){
+			vo.setFileId(Integer.parseInt(fileId));
+		}else{
+			vo.setFileId(0);
+		}
+		vo.setRealNm(editFileNm);
+			
+		try {
+			dao.editProduct(vo, req);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/editProduct", method=RequestMethod.GET)
+	public ProductVO editProducts(HttpServletRequest req, HttpServletResponse res, HttpSession session,@RequestParam String epId) throws NumberFormatException, SQLException {
+		ProductVO vo = new ProductVO();
+		if(session.getAttribute("id")== null){
+			vo = null;
+			goLogin();
+		}else{
+			// epId 로 조회해서 epTpye, epPrice, epNm, etc, fileId가져오기
+			vo = dao.getProductInfo(Integer.parseInt(epId));
+		}
+		return vo;
+	}
+	
 	@ResponseBody
 	@RequestMapping("/deleteProduct")
 	public String deleteProduct(HttpServletRequest req, HttpServletResponse res, HttpSession session,@RequestParam String epId) {
