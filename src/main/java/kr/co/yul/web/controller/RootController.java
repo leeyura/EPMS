@@ -90,7 +90,7 @@ public class RootController {
 		//	mav.setViewName("apply/applyList");
 			
 		}else{
-			mav = new ModelAndView();
+			mav = new ModelAndView("login/login");
 
 
 			mav.addObject("emptyInfo", "계정이 없으시면 가입후 이용해 주세요.");

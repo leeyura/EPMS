@@ -22,10 +22,6 @@ public class ProductDaompl implements ProductDao{
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
-	
-	
-	
-	
 	@Override
 	public ProductVO getFileInfo(int fileId) throws SQLException {
 		ProductVO vo = new ProductVO();
@@ -35,13 +31,21 @@ public class ProductDaompl implements ProductDao{
 
 
 	@Override
-	public List<ProductVO> getProductsList(Map<String, String> map) throws SQLException {
+	public List<ProductVO> getProductsList(Map<String, Object> map) throws SQLException {
 		List<ProductVO> list = null;
 		list = sqlSessionTemplate.selectList("product.getEpList", map);
 		return list;
 	}
 	
 	
+	@Override
+	public int getEpTotalCnt(Map<String, String> map) throws SQLException {
+		int cnt = 0;
+		cnt = sqlSessionTemplate.selectOne("product.getEpTotalCnt",map);
+		return cnt;
+	}
+
+
 	@Override
 	public List<ProductVO> getProductsCard(Map<String, Object> map) throws SQLException {
 		List<ProductVO> list = null;
@@ -73,7 +77,6 @@ public class ProductDaompl implements ProductDao{
 		return 0;
 	}
 	
-
 	@Transactional(rollbackFor={SQLException.class})
 	@Override
 	public int editProduct(ProductVO vo, HttpServletRequest req) throws SQLException, Exception {

@@ -40,7 +40,39 @@
 	
 	
 	<select id="getReqList" resultMap="applyResult" parameterType="hashmap">
-		SELECT ME.MEM_ID,
+		SELECT *
+		  FROM(
+				SELECT ME.MEM_ID,
+					         ME.EP_ID,
+					         ME.EP_CNT,
+					         ME.EP_TT_PRICE,
+					         ME.EP_STATE,
+					         ME.S_CAUSE,
+					         TO_CHAR(ME.INSERT_DT, 'YYYY-MM-DD') insertDt,
+					         MEM.MEM_NM,
+					         EE.EP_NM,
+					         EE.EP_TYPE,
+					         F.FILE_ID,
+		               ROWNUM AS RN
+			     FROM EPMS_MEM_EP ME LEFT OUTER JOIN EPMS_MEMBER MEM ON ME.MEM_ID = MEM.MEM_ID  
+										                     LEFT OUTER JOIN EPMS_FILE_EP FE ON ME.EP_ID = FE.EP_ID
+										                     LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID
+			                                  				 LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
+				WHERE ME.INSERT_DT IS NOT NULL
+		     <if test="mt != null and mt != ''">
+				 	AND SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) = #{mt}
+				 </if>
+				 <if test="state != null and state != ''">
+					AND ME.EP_STATE = #{state}
+				 </if>
+		  )A
+		  WHERE A.RN >=#{startIndex}
+		    AND #{limit} >= A.RN
+		       ORDER BY  A.insertDt DESC, RN DESC
+	</select>
+
+	<select id="getReqCard" resultMap="applyResult" parameterType="hashmap">
+				SELECT ME.MEM_ID,
 			         ME.EP_ID,
 			         ME.EP_CNT,
 			         ME.EP_TT_PRICE,
@@ -65,6 +97,37 @@
 		ORDER BY ME.EP_STATE ASC
 	</select>
 
+
+
+	<select id="getReqTotalCnt" resultType="int" parameterType="hashmap">
+		SELECT COUNT(A.RN)
+		  FROM(
+				SELECT ME.MEM_ID,
+					         ME.EP_ID,
+					         ME.EP_CNT,
+					         ME.EP_TT_PRICE,
+					         ME.EP_STATE,
+					         ME.S_CAUSE,
+					         TO_CHAR(ME.INSERT_DT, 'YYYY-MM-DD') insertDt,
+					         MEM.MEM_NM,
+					         EE.EP_NM,
+					         EE.EP_TYPE,
+					         F.FILE_ID,
+		               ROWNUM AS RN
+			     FROM EPMS_MEM_EP ME LEFT OUTER JOIN EPMS_MEMBER MEM ON ME.MEM_ID = MEM.MEM_ID  
+										                     LEFT OUTER JOIN EPMS_FILE_EP FE ON ME.EP_ID = FE.EP_ID
+										                     LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID
+			                                  				 LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
+				WHERE ME.INSERT_DT IS NOT NULL
+		     <if test="mt != null and mt != ''">
+		      AND SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) = #{mt}
+		     </if>
+		     <if test="state != null and state != ''">
+		      AND ME.EP_STATE = #{state}
+		     </if>
+		  )A
+	</select>
+
 	<update id="updateState" parameterType="hashmap">
 		UPDATE EPMS_MEM_EP
 		       SET EP_STATE = #{changeState}
@@ -73,10 +136,5 @@
 		 </if>
 		WHERE EP_ID = #{epId} 
 	</update>
-	
-	
-	
-	
-	
 
 </mapper>

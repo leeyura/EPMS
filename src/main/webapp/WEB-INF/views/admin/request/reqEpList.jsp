@@ -71,21 +71,10 @@
 				</div>
             
 				<!-- 메인화면 -->
-           		<div class="row" style="min-height: 597px;">
+           		<div class="row" style="min-height: 500px;">
 					<div class="col s1 m1 l1"><span style="color: #fff;">DAIMS_EPMS</span></div>
 					<div class="col s10 m10 l10">
 						<table class="bordered">
-				<%-- 		<colgroup>
-				            <col width="20%" />
-				            <col width="5%" />
-				            <col width="10%" />
-				            <col width="5%" />
-				            <col width="20%" />
-				            <col width="*" />
-				            <col width="*" />
-				        </colgroup>
-
-						 --%>
 							<thead>
 								<tr>
 									<th>비품명</th>
@@ -129,42 +118,6 @@
 												</select>
 											</div>
 										</td>
-									<%-- 	<c:if test="${epState eq '1' }">
-										<td width="10%">
-											<div class="select-wrapper initialized" style="max-height: 35px;">
-												<select class="initialized" disabled="disabled">
-													<option value="0"   <c:if test="${epState eq '0' }">selected</c:if>>대기중</option>
-													<option value="1"   <c:if test="${epState eq '1' }">selected</c:if>>승인</option>
-													<option value="2"   <c:if test="${epState eq '2' }">selected</c:if>>반려</option>
-													<option value="3"   <c:if test="${epState eq '3' }">selected</c:if>>취소</option>
-												</select>
-											</div>
-										</td>
-										</c:if>
-										<c:if test="${epState eq '2' }">
-										<td width="10%">
-											<div class="select-wrapper initialized" style="max-height: 35px;">
-												<select class="initialized" disabled="disabled">
-													<option value="0"  <c:if test="${epState eq '0' }">selected</c:if>>대기중</option>
-													<option value="1" <c:if test="${epState eq '1' }">selected</c:if>>승인</option>
-													<option value="2" <c:if test="${epState eq '2' }">selected</c:if>>반려</option>
-													<option value="3" <c:if test="${epState eq '3' }">selected</c:if>>취소</option>
-												</select>
-											</div>
-										</td>
-										</c:if>
-										<c:if test="${epState eq '3' }">
-										<td width="10%">
-											<div class="select-wrapper initialized" style="max-height: 35px;">
-												<select class="initialized" disabled="disabled">
-													<option value="0"<c:if test="${epState eq '0' }">selected</c:if>>대기중</option>
-													<option value="1"   <c:if test="${epState eq '1' }">selected</c:if>>승인</option>
-													<option value="2"  <c:if test="${epState eq '2' }">selected</c:if>>반려</option>
-													<option value="3"  <c:if test="${epState eq '3' }">selected</c:if>>취소</option>
-												</select>
-											</div>
-										</td>
-										</c:if> --%>
 										<td style="padding-left: 10px;">${list.cause }</td>
 										</tr>
 									</c:forEach>
@@ -179,8 +132,24 @@
 					</div>
 					<div class="col s1 m1 l1"><span style="color: #fff;">DAIMS_EPMS</span></div>            		
 				</div>
+		        <div id="pageNavigation" align="center" class="pagination">
+				<c:if test="${totalPage == 1 }">
+					<a>${totalPage }</a>
+				</c:if>
+				<c:if test="${ totalPage > 1 }">
+				<c:set var="totalpage" value="${totalPage}"/>
+				<c:set var="currentpage" value="${currentPage}"/>
+					<c:forEach begin="1" end="${totalpage }" var="i">
+						<c:if test="${i == currentpage }">
+							<a href="${pageContext.request.contextPath}/admin/reqEpList?page=${i}" class="pageNo"><strong>${i}</strong></a>
+						</c:if>
+						<c:if test="${i != currentpage }">
+						<a href="${pageContext.request.contextPath}/admin/reqEpList?page=${i}" class="pageNo">${i}</a>
+						</c:if>
+					</c:forEach>
+				</c:if>
+				</div>
             </section>
-
         </div>
         <!-- END WRAPPER -->
     </div>

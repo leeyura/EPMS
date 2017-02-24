@@ -3,11 +3,8 @@ package kr.co.yul.web.controller;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.yul.data.ProductVO;
 import kr.co.yul.repo.ProductDao;
+import kr.co.yul.utils.PagingUtil;
 
 @Controller
 @RequestMapping("/product")
@@ -39,45 +37,45 @@ public class ProductController {
 
 	@Autowired
 	private ProductDao dao;
-	
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	private static final String filePath = "C:\\dev\\products";
 	
 	
 	@RequestMapping("/list")
-	public ModelAndView productList(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
+	public ModelAndView productList(HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
 		ModelAndView mav = null;
 		List<ProductVO> productList = null;
-		Map<String, String>map = new HashMap<String, String>();
-		String type = "";
-		String name = "";
+		String currentPage = (String) req.getParameter("page");
+		String type="";
+		String name="";
 		if(req.getParameter("type") != null){
 			type = req.getParameter("type");
 		}
 		if(req.getParameter("name") != null){
 			name = req.getParameter("name");
 		}
-		map.put("type",type);
-		map.put("name",name);
+		productList = getProductList(req,  currentPage);
 		
 		if(session.getAttribute("id")== null){
 			mav = goLogin();
 		}else{
 			// 비품 목록 조회해오기.
-			try {
-				productList = dao.getProductsList(map);
 				mav = new ModelAndView("product/productList");
 				mav.addObject("type", type);
 				mav.addObject("name", name);
 				mav.addObject("userInfo", session);
 				mav.addObject("productList", productList);
-			} catch (SQLException e) {
-				mav = goLogin();
-				e.printStackTrace();
-			}
+				mav.addObject("pageLimit", getPaging(currentPage, type, name).get("pageLimit"));
+				mav.addObject("totalPage", getPaging(currentPage, type, name).get("totalPage"));
+				mav.addObject("currentPage", getPaging(currentPage,type, name).get("page"));
+				mav.addObject("defaultPageLimit", getPaging(currentPage, type, name).get("defaultPageLimit"));
+				mav.addObject("startPage", getPaging(currentPage, type, name).get("startPage")); 
+			
 		}
 		return mav;
 	}
+	
+	
 	
 	@RequestMapping("/card")
 	public ModelAndView productCard(HttpServletRequest req, HttpServletResponse res, HttpSession session) {
@@ -237,9 +235,78 @@ public class ProductController {
 		return result;
 	}
 
-	
 	public ModelAndView goLogin(){
 		ModelAndView mav = new ModelAndView("redirect:/login");
 		return mav;
 	}
+	
+	public List<ProductVO> getProductList(HttpServletRequest req, String page) throws SQLException{
+		List<ProductVO> productList = null;
+		Map<String, Object>map = new HashMap<String, Object>();
+		
+		String type = "";
+		String name = "";
+		int currentPage = 1;
+		int limit = 2;
+		int startIndex = 0;
+
+		if(page != null){
+			currentPage = Integer.parseInt(page);
+		}
+		startIndex = PagingUtil.startIndex(currentPage, limit);
+		
+		if(startIndex!= 0){
+			limit = startIndex + limit;
+			startIndex +=1;
+		}
+		
+		if(req.getParameter("type") != null){
+			type = req.getParameter("type");
+		}
+		if(req.getParameter("name") != null){
+			name = req.getParameter("name");
+		}
+		map.put("type",type);
+		map.put("name",name);
+		map.put ("limit", limit);
+		map.put ("startIndex", startIndex);
+		
+		productList = dao.getProductsList(map);
+		
+		return productList;
+	}
+	
+	/**
+	 * paging에 필요한 요소를 Map에 담음.
+	 */
+	public Map<String, Integer> getPaging(String page, String type, String name) throws SQLException{
+		 Map<String, Integer>paging = new HashMap<String, Integer>();
+		 PagingUtil PagingUtils = new PagingUtil();
+		 Map<String, String> map = new HashMap<>();
+		 int totalCnt =0;
+		 int limit =2;
+		 int startPage = 0;
+		 int totalPage = 0;
+		 int defaultPageLimit = 10;
+		 int pageLimit = 0;
+		 int currentPage = 1;
+		 
+			if(page != null){
+				currentPage = Integer.parseInt(page);
+			}
+		 map.put("type", type);
+		 map.put("name", name);
+		 totalCnt = dao.getEpTotalCnt(map); 
+		 totalPage = PagingUtils.calculateTotalPage(limit, totalCnt);
+	 	 startPage = PagingUtils.startPage(currentPage, defaultPageLimit);
+	  	 pageLimit = PagingUtils.pageLimit(defaultPageLimit, totalPage, startPage);
+	  	 paging.put("pageLimit", pageLimit);
+	  	 paging.put("totalPage", totalPage);
+	  	 paging.put("page", currentPage);
+	  	 paging.put("defaultPageLimit", defaultPageLimit);
+	  	 paging.put("startPage", startPage);
+    	 
+		 return paging;
+	}
+	
 }

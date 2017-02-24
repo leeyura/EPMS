@@ -18,10 +18,24 @@ public class ReqDaoImpl implements ReqDao {
 	private SqlSessionTemplate  sql;
 	
 	@Override
-	public List<ApplyVO> getReqList(Map<String, String> map) throws SQLException {
+	public List<ApplyVO> getReqList(Map<String, Object> map) throws SQLException {
 		List<ApplyVO>list = new ArrayList<ApplyVO>();
 		list = sql.selectList("req.getReqList", map);
 		return list;
+	}
+	
+	@Override
+	public List<ApplyVO> getReqCard(Map<String, Object> map) throws SQLException {
+		List<ApplyVO>list = new ArrayList<ApplyVO>();
+		list = sql.selectList("req.getReqCard", map);
+		return list;
+	}
+	
+	@Override
+	public int getReqTotalCnt(Map<String, String> map) throws SQLException {
+		int cnt =0;
+		cnt = sql.selectOne("req.getReqTotalCnt",map);
+		return cnt;
 	}
 
 	@Override
@@ -30,6 +44,4 @@ public class ReqDaoImpl implements ReqDao {
 		cnt = sql.update("req.updateState",map);
 		return cnt;
 	}
-
-	
 }

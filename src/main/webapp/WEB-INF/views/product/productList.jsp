@@ -57,7 +57,7 @@
 				</div>
 				
 				<!-- main -->
-				<div class="row" id="productList" style="margin-top: 20px;">
+				<div class="row" id="productList" style="margin-top: 20px;height: 500px;">
 					<div class="col s1 m1 l1"><span style="color: #fff;">DAIMS_EPMS</span></div> 	
 	            	<div class="col s10 m10 l10">
 						<table class="bordered">
@@ -119,6 +119,23 @@
 	            	</div>
 	            	<div class=""><span style="color: #fff;">DAIMS_EMPS</span></div> 	
 	            </div>
+		        <div id="pageNavigation" align="center" class="pagination">
+				<c:if test="${totalPage == 1 }">
+					<a>${totalPage }</a>
+				</c:if>
+				<c:if test="${ totalPage > 1 }">
+				<c:set var="totalpage" value="${totalPage}"/>
+				<c:set var="currentpage" value="${currentPage}"/>
+					<c:forEach begin="1" end="${totalpage }" var="i">
+						<c:if test="${i == currentpage }">
+							<a href="${pageContext.request.contextPath}/product/list?page=${i}" class="pageNo"><strong>${i}</strong></a>
+						</c:if>
+						<c:if test="${i != currentpage }">
+						<a href="${pageContext.request.contextPath}/product/list?page=${i}" class="pageNo">${i}</a>
+						</c:if>
+					</c:forEach>
+				</c:if>
+				</div>
             </section>
         </div>
         <!-- END WRAPPER -->
@@ -132,28 +149,6 @@
     ================================================ -->
     <jsp:include page="../common/common.jsp" flush="false"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/script/product.js"></script>
-    <script type="text/javascript">
-/*     $(function(){
-    	var path = $('#path').val();
-		
-    	$('#del').on('click', function(){
-	    	$.ajax({
-		          type : "POST",
-		          url : path+"/product/deleteProduct",
-		          data: {
-		        	  		 epId : $('#id').val()
-		                    },
-		                    success : function(data) {	
-									window.alert(data);
-		                    },
-		                    error : function(xhr, status, error) {
-		                          alert("에러발생" + error);
-		                    }
-		        });
-    	})
-    }); */
-
-    </script>
 </body>
 
 </html>
