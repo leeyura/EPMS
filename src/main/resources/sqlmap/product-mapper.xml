@@ -19,6 +19,7 @@
 		<result property="filePath" column="FILE_PATH"/>
 		<result property="memEmail" column="MEM_EMAIL"/>
 		<result property="memId" column="MEM_ID"/>
+		<result property="memNm" column="MEM_NM"/>
 	</resultMap>
 
 	<insert id="addNewProduct" parameterType="ProductVO">
@@ -27,7 +28,6 @@
 								                        EP_PRICE,
 								                        EP_TYPE,
 								                        EP_IST_MEM_ID,
-								                        EP_UST_MEM_ID,
 								                        EP_USE_YN,
 								                        INSERT_DT)
 						                 VALUES( SEQ_EP.NEXTVAL,
@@ -35,7 +35,6 @@
 								                        #{epPrice},
 								                        #{epType},
 								                        #{epIstMemId},
-								                        #{epUstMemId},
 								                        'Y',
 								                        sysdate)
 	</insert>
@@ -109,9 +108,12 @@
 		                 F.FILE_ID,
 		                 F.REAL_NM,
 		                 F.FILE_PATH,
+		                 MEM.MEM_ID,
+                     	 MEM.MEM_NM,
 		                 ROWNUM AS RN
 		           FROM EPMS_EPMENT EP LEFT OUTER JOIN EPMS_FILE_EP FE ON EP.EP_ID = FE.EP_ID                        
-		                               LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID                             
+  							                                 LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID                             
+							                                 LEFT OUTER JOIN EPMS_MEMBER MEM  ON EP.EP_UST_MEM_ID = MEM.MEM_ID
 		            WHERE EP.EP_USE_YN = 'Y'
 		           <if test="type != null and type != ''">
 				 		AND EP.EP_TYPE = #{type}
@@ -203,10 +205,4 @@
  		    SET FILE_ID = #{fileId}
 	 WHERE EP_ID = #{epId}
  </update>
-	
-	
-	
-	
-	
-	
 </mapper>

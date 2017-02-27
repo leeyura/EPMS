@@ -36,6 +36,7 @@
 		<result property="deleteDt" column="DELETE_DT"/>
 		<result property="cause" column="S_CAUSE" />
 		<result property="epState" column="EP_STATE"/>
+		<result property="udtNm" column="MEM_NM_1"/>
 	</resultMap>
 
 	<select id="getproductNmList" parameterType="String" resultMap="productResult">
@@ -45,6 +46,14 @@
 	     FROM EPMS_EPMENT
 	   WHERE EP_TYPE = #{type}
 	       AND EP_USE_YN = 'Y' 
+	</select>
+	
+	<select id="checkApply" parameterType="hashmap" resultType="int">
+		SELECT COUNT(EP_ID)
+		 FROM EPMS_MEM_EP
+		WHERE EP_ID = #{epId}
+		     AND SUBSTR(TRUNC(INSERT_DT,'MM'),-5,2) = #{mt}
+		     AND CANCEL_DT IS NULL
 	</select>
 
 	<insert id="addApply" parameterType="ApplyVO">
@@ -66,22 +75,23 @@
 	
 	<select id="getApllyList" resultMap="applyResult" parameterType="hashmap">
 		SELECT ME.MEM_ID,
-			         ME.EP_ID,
-			         ME.EP_CNT,
-			         ME.EP_TT_PRICE,
-			         ME.EP_STATE,
-			         ME.S_CAUSE,
-			         MEM.MEM_NM,
-			         EE.EP_NM,
-			         F.FILE_ID
-	     FROM EPMS_MEM_EP ME LEFT OUTER JOIN EPMS_MEMBER MEM ON ME.MEM_ID = MEM.MEM_ID  
+		             ME.EP_ID,
+		             ME.EP_CNT,
+		             ME.EP_TT_PRICE,
+		             ME.EP_STATE,
+		             ME.S_CAUSE,
+		             MEM.MEM_NM,
+	                 MEMB.MEM_NM as MEM_NM_1,
+		             EE.EP_NM,
+		             F.FILE_ID
+         FROM EPMS_MEM_EP ME LEFT OUTER JOIN EPMS_MEMBER MEM ON ME.MEM_ID = MEM.MEM_ID  
+                          							 LEFT OUTER JOIN EPMS_MEMBER MEMB ON ME.MEM_UDT_ID = MEMB.MEM_ID  
 								                     LEFT OUTER JOIN EPMS_FILE_EP FE ON ME.EP_ID = FE.EP_ID
-								                     LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID
-	                                  				 LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
+									                 LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID
+					                  				 LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
 		WHERE ME.EP_STATE != 3
 		<if test="mt != null and mt != ''">
 		 	AND SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) = #{mt}
-    
 		 </if>
 		 <if test="state != null and state != ''">
 			AND ME.EP_STATE = #{state}

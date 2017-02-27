@@ -76,10 +76,10 @@
 										<i class="material-icons right" style=" position: absolute; z-index: 1; top: 5px; left: 20px; min-height: 100%; margin-left: 83%; text-decoration: none; color: black" onclick="removeProduct(${list.epId});">highlight_off</i>
 									<c:if test="${list.realNm != null && list.realNm != '' }">
 <%-- 										<img src="${list.filePath }/${list.realNm}" > --%>
-												<img alt="" src="${pageContext.request.contextPath }/product/img?fileId=${list.fileId}">
+												<img alt="" src="${pageContext.request.contextPath }/product/img?fileId=${list.fileId}" style="max-height: 247px;">
 									</c:if>
 									<c:if test="${list.realNm == null || list.realNm == '' }">
-										<img src="${pageContext.request.contextPath }/images/productImg/tempImg.jpg" >
+										<img src="${pageContext.request.contextPath }/images/productImg/tempImg.jpg" style="max-height: 247px;">
 									</c:if>
 								</div>
 								<div class="card-content">

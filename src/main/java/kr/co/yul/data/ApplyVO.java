@@ -9,6 +9,7 @@ public class ApplyVO {
 	private int memId;
 	private int fileId;
 	private String memNm;
+	private String udtNm;
 	private int epId;
 	private String epNm;
 	private int memUdtId;

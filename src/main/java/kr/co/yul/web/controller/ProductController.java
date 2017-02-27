@@ -247,7 +247,7 @@ public class ProductController {
 		String type = "";
 		String name = "";
 		int currentPage = 1;
-		int limit = 2;
+		int limit = 10;
 		int startIndex = 0;
 
 		if(page != null){
@@ -284,7 +284,7 @@ public class ProductController {
 		 PagingUtil PagingUtils = new PagingUtil();
 		 Map<String, String> map = new HashMap<>();
 		 int totalCnt =0;
-		 int limit =2;
+		 int limit =10;
 		 int startPage = 0;
 		 int totalPage = 0;
 		 int defaultPageLimit = 10;

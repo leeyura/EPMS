@@ -14,4 +14,5 @@ public interface ApplyDao {
 	int addApply(ApplyVO vo)throws SQLException;
 	int editApply(ApplyVO vo)throws SQLException;
 	int cancelApply(Map<String, Object> map)throws SQLException;
+	int checkApply(Map<String, Object> map) throws SQLException;
 }

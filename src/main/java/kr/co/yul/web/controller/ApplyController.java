@@ -99,6 +99,23 @@ public class ApplyController {
 	}
 	
 	@ResponseBody
+	@RequestMapping("/checkProduct")
+	public String checkProducts(@RequestParam int epId, String mt) throws SQLException{
+		String result = "";
+		int cnt =0;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("epId", epId);
+		map.put("mt", mt);
+		cnt = dao.checkApply(map);
+		if(cnt > 0){
+			result = "no";
+		}else{
+			result = "able";
+		}
+		return result;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/addApply", method=RequestMethod.POST)
 	public String addApplies(HttpSession session, @RequestParam String type, @RequestParam String epId,
 			                                     @RequestParam String epCnt, @RequestParam String price){

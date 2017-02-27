@@ -104,6 +104,12 @@
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
 						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
+						                                    <c:if test="${list.udtNm != null }">
+							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
+						                                    </c:if>
+						                                    <c:if test="${list.udtNm == null || list.udtNm == '' }">
+							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음</a></p>
+						                                    </c:if>
 						                                </div>
 						                            </div>
 						                        </div>
@@ -118,6 +124,12 @@
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
 						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
+						                                    <c:if test="${list.udtNm != null }">
+							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
+						                                    </c:if>
+						                                    <c:if test="${list.udtNm == null || list.udtNm == '' }">
+							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음</a></p>
+						                                    </c:if>
 						                                </div>
 						                            </div>
 						                        </div>
@@ -134,6 +146,12 @@
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
 						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
+						                                    <c:if test="${list.udtNm != null }">
+							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
+						                                    </c:if>
+						                                    <c:if test="${list.udtNm == null || list.udtNm == '' }">
+							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음 </a></p>
+						                                    </c:if>
 						                                </div>
 						                            </div>
 						                        </div>

@@ -41,12 +41,12 @@ function goChange(epId,changeState, cause){
         	   cause: cause
            },
            error:function(error){
-        	   swal("Cancelled", "수정에 실패하였습니다. :)", "error");   
+        	   swal("Failed", "승인에 실패하였습니다. :)", "error");   
         	   location.reload();
            },
            success:function(data){
-        	   swal({   title: "수정",   
-                   text: "상태가 수정되었습니다",   
+        	   swal({   title: "승인",   
+                   text: "해당 비품을 승인하였습니다.",   
                    type: "success",   showCancelButton: true,   
                    closeOnConfirm: false,   
                    showLoaderOnConfirm: true, }, 

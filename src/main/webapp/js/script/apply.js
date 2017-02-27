@@ -22,13 +22,10 @@
 			 $('#epCnt').focus();
 			 return false;
 		 }
-		 var type = $('#type').val();
 		 var epId = $('#epNm').val();
-		 var epCnt =  $('#epCnt').val();
-		 var price = $('#epNm option:selected')[0].dataset.id;
-		 $('#epPrice').val(price);
+		
+		 checkApply(epId);
 		 
-		 addApply(type, epId, epCnt, price);
 	 })
 	 
 	 $('#editBtn').on('click', function(){
@@ -44,9 +41,43 @@
 		 	
 		 goEditApply();
 	 });
-	 
-	 
  });
+
+ function checkApply(epId){
+	 var path = $('#path').val();
+	 var mt = $('#mt').val();
+	 var d = new Date;
+	 if(mt == ""){
+		 mt = d.getMonth()+1;
+		 if(mt <10){
+			 mt = "0"+mt;
+		 }
+	 }
+	 
+	 $.ajax({
+           url: path+"/apply/checkProduct",
+           data: {
+        	   epId : epId,
+        	   mt : mt
+           },
+           method: 'GET',
+           error:function(error){
+        	   swal("Cancelled", "비품신청에 실패하였습니다.", "error");   
+           },
+           success:function(data){
+        	   if(data == "no"){
+        		   swal("Cancelled", "이미 신청이 되어있는 비품입니다. 다른비품을 신청해주세요.", "error");   
+        	   }else{
+        		   var type = $('#type').val();
+        		   var epId = $('#epNm').val();
+        		   var epCnt =  $('#epCnt').val();
+        		   var price = $('#epNm option:selected')[0].dataset.id;
+        		   $('#epPrice').val(price);
+        			addApply(type, epId, epCnt, price);
+        	   }
+           }
+       })
+ }
  
 
  function getProductList(add){

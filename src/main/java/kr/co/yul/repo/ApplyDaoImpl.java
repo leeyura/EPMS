@@ -27,6 +27,15 @@ public class ApplyDaoImpl implements ApplyDao{
 	}
 
 	@Override
+	public int checkApply(Map<String, Object> map) throws SQLException {
+		int cnt = 0;
+		cnt = sql.selectOne("apply.checkApply", map);
+		return cnt;
+	}
+
+
+
+	@Override
 	public int addApply(ApplyVO vo) throws SQLException {
 		int cnt =0;
 		cnt = sql.insert("apply.addApply",vo);
