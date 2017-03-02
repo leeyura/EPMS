@@ -82,6 +82,7 @@
 		             ME.S_CAUSE,
 		             MEM.MEM_NM,
 	                 MEMB.MEM_NM as MEM_NM_1,
+	                 SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) insertDt,
 		             EE.EP_NM,
 		             F.FILE_ID
          FROM EPMS_MEM_EP ME LEFT OUTER JOIN EPMS_MEMBER MEM ON ME.MEM_ID = MEM.MEM_ID  
@@ -96,7 +97,7 @@
 		 <if test="state != null and state != ''">
 			AND ME.EP_STATE = #{state}
 		 </if>
-		ORDER BY ME.EP_STATE ASC
+		ORDER BY ME.EP_STATE ASC, ME.INSERT_DT DESC
 	</select>
 	
 	<update id="cancelApply" parameterType="hashmap" >
@@ -107,24 +108,27 @@
 		  WHERE EP_ID = #{epId}
 	</update>
 	
-	<select id="applyInfo" parameterType="int" resultMap="applyResult">
+	<select id="applyInfo" parameterType="hashmap" resultMap="applyResult">
 		SELECT ME.EP_ID,
 		  			 ME.EP_CNT,
 			         EE.EP_TYPE,
 			         EE.EP_NM,
-			         EE.EP_PRICE
+			         EE.EP_PRICE,
+			         SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) insertDt
 		 FROM EPMS_MEM_EP ME  LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
 	   WHERE ME.EP_ID = #{epId}
+	        AND   SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) = #{insertDt}
+	        AND ME.CANCEL_DT IS NULL
 	</select>
 	
-	<update id="updateApply" parameterType="ApplyVO">
+	<update id="updateApply" parameterType="hashmap">
 	UPDATE EPMS_MEM_EP
 		   SET  EP_CNT = #{epCnt},
 			       EP_TT_PRICE = #{epTtPrice},
 			       MEM_UDT_ID = #{memUdtId},
 			       UPDATE_DT = sysdate
 	 WHERE EP_ID = #{epId}
+	       AND  SUBSTR(TRUNC(INSERT_DT,'MM'),-5,2) = #{insertDt}
 	</update>
-	
 
 </mapper>

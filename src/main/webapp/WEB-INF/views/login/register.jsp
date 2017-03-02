@@ -62,7 +62,7 @@
 	            <a class="btn waves-effect waves-light col s12" id="register">가입하기</a>
 	          </div>
 	          <div class="input-field col s12">
-	            <p class="margin center medium-small sign-up">이미 가입하셨나요? <a href="${pageContext.request.contextPath}/login">로그인</a></p>
+	            <p class="margin center medium-small sign-up">이미 가입하셨나요? <a href="${pageContext.request.contextPath}/">로그인</a></p>
 	          </div>
 	        </div>
 	      </form>

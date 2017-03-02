@@ -10,9 +10,9 @@
                     </div>
                     <div class="col col s8 m8 l8">
                         <ul id="profile-dropdown" class="dropdown-content">
-                            <li><a href="${pageContext.request.contextPath }/member/profile"><i class="material-icons">perm_identity</i>Profile</a>
-                            </li>
-                            <li class="divider"></li>
+                            <!-- <li><a href="#"><i class="material-icons">perm_identity</i>Profile</a>
+                            </li> -->
+                            <!-- <li class="divider"></li> -->
                             <li><a href="${pageContext.request.contextPath }/logout"><i class="material-icons">input</i>Logout</a>
                             </li>
                         </ul>
@@ -31,7 +31,7 @@
                 <c:if test="${userInfo.getAttribute(\"level\") eq 0 }">
 	                <li class="no-padding">
 	                    <ul class="collapsible collapsible-accordion">
-	                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="material-icons">redeem</i>비품</a>
+	                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan" id="topMore"><i class="material-icons">redeem</i>비품 <img id="more" alt="" src="${pageContext.request.contextPath }/images/right.png"class="right" style="padding-top: 10px;width: 20px;"> </a>
 	                            <div class="collapsible-body">
 	                                <ul>
 	                                    <li><a href="${pageContext.request.contextPath }/product/list">비품 목록</a>
@@ -47,7 +47,12 @@
                 <c:if test="${userInfo.getAttribute(\"level\") eq 1 }">
 	                <li class="no-padding">
 	                    <ul class="collapsible collapsible-accordion">
-	                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="material-icons">redeem</i>비품</a>
+	                        <li class="bold">
+	                        	<a class="collapsible-header waves-effect waves-cyan" id="topMore">
+	                        		<i class="material-icons">redeem</i>비품 
+	                        		<img id="more"  alt="" src="${pageContext.request.contextPath }/images/right.png"class="right" style="padding-top: 10px;width: 20px;"> 
+	                        		<%-- <img alt="" src="${pageContext.request.contextPath }/images/up.png"class="right" style="padding-top: 2px;">  --%>
+	                        	</a>
 	                            <div class="collapsible-body">
 	                                <ul>
 	                                    <li><a href="${pageContext.request.contextPath }/product/list">비품 목록</a>

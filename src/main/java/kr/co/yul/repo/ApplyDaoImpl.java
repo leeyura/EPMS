@@ -33,8 +33,6 @@ public class ApplyDaoImpl implements ApplyDao{
 		return cnt;
 	}
 
-
-
 	@Override
 	public int addApply(ApplyVO vo) throws SQLException {
 		int cnt =0;
@@ -59,16 +57,16 @@ public class ApplyDaoImpl implements ApplyDao{
 	}
 	
 	@Override
-	public int editApply(ApplyVO vo) throws SQLException {
+	public int editApply(Map<String, Integer> map) throws SQLException {
 		int cnt = 0;
-		cnt = sql.update("apply.updateApply", vo);
+		cnt = sql.update("apply.updateApply", map);
 		return cnt;
 	}
 
 	@Override
-	public ApplyVO getApplyInfo(int epId) throws SQLException {
+	public ApplyVO getApplyInfo(Map<String, Integer> map) throws SQLException {
 		ApplyVO vo = null;
-		vo = sql.selectOne("apply.applyInfo", epId); 
+		vo = sql.selectOne("apply.applyInfo", map); 
 		return vo;
 	}
 }

@@ -188,9 +188,9 @@ public class AdminController {
 		 int pageLimit = 0;
 		 int currentPage = 1;
 		 
-			if(page != null){
-				currentPage = Integer.parseInt(page);
-			}
+		if(page != null){
+			currentPage = Integer.parseInt(page);
+		}
 		 map.put("mt", mt);
 		 map.put("state",state);
 		 totalCnt = dao.getReqTotalCnt(map); 

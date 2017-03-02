@@ -28,12 +28,15 @@
 			        </div>
 			        <div class="row margin">
 			          <div class="input-field col s12">
+			            <input type="hidden" name="viewType" id="viewType" value="${viewType }">
 			            <input id="epName" type="text" placeholder="비품명" name="epName" maxlength="100"  value="">
+			            <label for="epName" class="center-align">비품명</label>
 			          </div>
 			        </div>
 			        <div class="row margin">
 			          <div class="input-field col s12">
 			            <input id="epPrice" type="text" placeholder="비품가격" name="epPrice" maxlength="8"  value="">
+			            <label for="epPrice" class="center-align">비품가격</label>
 			          </div>
 			        </div>
 			        <div class="row margin">

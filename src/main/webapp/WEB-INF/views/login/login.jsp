@@ -21,7 +21,7 @@
     <form id="loginFrm" method="post" action="${pageContext.request.contextPath}/login">
         <div class="row">
           <div class="input-field col s12 center">
-            <img src="http://demo.geekslabs.com/materialize-v1.0/images/login-logo.png" alt="" class="circle responsive-img valign profile-image-login">
+            <img src="${pageContext.request.contextPath }/images/Giff.png" alt="" class="circle responsive-img valign profile-image-login">
             <p class="center login-form-text">This is a system for supply management</p>
           </div>
         </div>

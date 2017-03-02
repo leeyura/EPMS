@@ -40,35 +40,36 @@
 	
 	
 	<select id="getReqList" resultMap="applyResult" parameterType="hashmap">
-		SELECT *
-		  FROM(
-				SELECT ME.MEM_ID,
-					         ME.EP_ID,
-					         ME.EP_CNT,
-					         ME.EP_TT_PRICE,
-					         ME.EP_STATE,
-					         ME.S_CAUSE,
-					         TO_CHAR(ME.INSERT_DT, 'YYYY-MM-DD') insertDt,
-					         MEM.MEM_NM,
-					         EE.EP_NM,
-					         EE.EP_TYPE,
-					         F.FILE_ID,
-		               ROWNUM AS RN
-			     FROM EPMS_MEM_EP ME LEFT OUTER JOIN EPMS_MEMBER MEM ON ME.MEM_ID = MEM.MEM_ID  
-										                     LEFT OUTER JOIN EPMS_FILE_EP FE ON ME.EP_ID = FE.EP_ID
-										                     LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID
-			                                  				 LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
-				WHERE ME.INSERT_DT IS NOT NULL
-		     <if test="mt != null and mt != ''">
-				 	AND SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) = #{mt}
-				 </if>
-				 <if test="state != null and state != ''">
-					AND ME.EP_STATE = #{state}
-				 </if>
-		  )A
-		  WHERE A.RN >=#{startIndex}
-		    AND #{limit} >= A.RN
-		       ORDER BY  A.insertDt DESC, RN DESC
+			SELECT * 
+		      FROM (SELECT ROWNUM RN, A.*
+		              FROM  (
+		                      SELECT ME.MEM_ID,
+		                             ME.EP_ID,
+		                             ME.EP_CNT,
+		                             ME.EP_TT_PRICE,
+		                             ME.EP_STATE,
+		                             ME.S_CAUSE,
+		                             TO_CHAR(ME.INSERT_DT, 'YYYY-MM-DD') insertDt,
+		                             MEM.MEM_NM,
+		                             EE.EP_NM,
+		                             EE.EP_TYPE,
+		                             F.FILE_ID
+		                     FROM EPMS_MEM_EP ME LEFT OUTER JOIN EPMS_MEMBER MEM ON ME.MEM_ID = MEM.MEM_ID  
+		                                                   LEFT OUTER JOIN EPMS_FILE_EP FE ON ME.EP_ID = FE.EP_ID
+		                                                   LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID
+		                                                   LEFT OUTER JOIN EPMS_EPMENT EE ON ME.EP_ID = EE.EP_ID
+		                    WHERE ME.INSERT_DT IS NOT NULL       
+		                     <if test="mt != null and mt != ''">
+		                       AND SUBSTR(TRUNC(ME.INSERT_DT,'MM'),-5,2) = #{mt}
+		                     </if>
+		                     <if test="state != null and state != ''">
+		                       AND ME.EP_STATE = #{state}
+		                     </if>
+		                    ORDER BY ME.EP_STATE ASC, ME.INSERT_DT DESC
+		                     )A
+		          )
+		    WHERE RN >= #{startIndex}
+		         AND  #{limit} >= RN		       
 	</select>
 
 	<select id="getReqCard" resultMap="applyResult" parameterType="hashmap">
@@ -94,7 +95,7 @@
 		 <if test="state != null and state != ''">
 			AND ME.EP_STATE = #{state}
 		 </if>
-		ORDER BY ME.EP_STATE ASC
+		ORDER BY  ME.EP_STATE ASC, ME.INSERT_DT DESC
 	</select>
 
 

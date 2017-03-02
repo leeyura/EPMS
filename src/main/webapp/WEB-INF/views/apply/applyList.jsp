@@ -19,17 +19,17 @@
             	
   				<div id="input-select" class="row" style="margin-bottom: 0px;">
 					<div class="col s1 m1 l1">
-						<span style="color: #fff;">DAIMS_EPMS</span>
+						<span style="color: ghostwhite;">DAIMS_EPMS</span>
 					</div>
 					
 					<div class="col s2 m2 l2" style="padding-top: 20px;">
-						<div class="col s3 m3 l3"><span style="color: #fff;">DAIMS_EPMS</span></div>
+						<div class="col s3 m3 l3"><span style="color: ghostwhite;">DAIMS_EPMS</span></div>
 							<div class="col s6 m6 l6">
 								<a class="btn-floating btn-large waves-effect waves-light modal-trigger" href="#addApplyModal">
 									<i class="material-icons">add</i>
 								</a>
 							</div>
-						<div class="col s3 m3 l3"><span style="color: #fff;">DAIMS_EPMS</span></div>
+						<div class="col s3 m3 l3"><span style="color: ghostwhite;">DAIMS_EPMS</span></div>
 					</div>
 
 					<div class="col s7 m7 l7" style="padding-top: 20px;">
@@ -38,7 +38,7 @@
 							<div class="select-wrapper initialized">
 								<!-- <span class="caret">▼</span>  -->
 								<select class="initialized" onchange="getApplyList()" id="state">
-									<option value="" >상태</option>
+									<option value="" >전체</option>
 									<option value="0" <c:if test="${state eq '0' }">selected</c:if>>대기중</option>
 									<option value="1" <c:if test="${state eq '1' }">selected</c:if>>승인</option>
 									<option value="2" <c:if test="${state eq '2' }">selected</c:if>>반려</option>
@@ -51,7 +51,7 @@
 								<!-- <span class="caret">▼</span> -->
 								 <select class="initialized" onchange="getApplyList()" id="mt">
 <!-- 									<option value="" disabled="disabled">신청월</option> -->
-									<option value="" >신청월</option>
+									<option value="" >전체월</option>
 									<c:forEach begin="1" end="12" varStatus="status">
 									<c:set value="${status.count }" var="cnt"/>
 										<c:if test="${cnt < 10 }">
@@ -94,21 +94,21 @@
 					                        <c:set value="${list.epState }" var="epState"/>
 					                        <c:if test="${epState eq 0 }">
 						                        <ul class="card-action-buttons" style="padding-top: 30px;">
-								                    <li><a class="btn-floating waves-effect waves-light #424242 grey darken-3"  title="수정" onclick="editApply(${list.epId});"><i class="material-icons">border_color</i></a></li>
+								                    <li><a class="btn-floating waves-effect waves-light #424242 grey darken-3"  title="수정" onclick="editApply(${list.epId}, ${list.insertDt });"><i class="material-icons">border_color</i></a></li>
 								                    <li><a class="btn-floating waves-effect waves-light green accent-4"  title="대기중"><i class="material-icons">hourglass_empty</i></a></li>
 						                            <li><a class="btn-floating waves-effect waves-light red accent-2" title="취소" onclick="cancelApply(${list.epId});"><i class="material-icons" >highlight_off</i></a></li>
 						                        </ul>
 						                        <div class="card-content">
-						                            <div class="row">
+						                            <div class="row" style="">
 						                                <div class="col s8">
-						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
-						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
-						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
+						                                    <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
+						                                     <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
+						                                    <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
 						                                    <c:if test="${list.udtNm != null }">
-							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
+							                                    <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
 						                                    </c:if>
 						                                    <c:if test="${list.udtNm == null || list.udtNm == '' }">
-							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음</a></p>
+							                                    <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음</a></p>
 						                                    </c:if>
 						                                </div>
 						                            </div>
@@ -121,14 +121,14 @@
 						                        <div class="card-content">
 						                            <div class="row">
 						                                <div class="col s8">
-						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
-						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
-						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
+						                                    <p class="card-title grey-text text-darken-4"  style="font-size: 14px;"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
+						                                     <p class="card-title grey-text text-darken-4"  style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
+						                                    <p class="card-title grey-text text-darken-4"  style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
 						                                    <c:if test="${list.udtNm != null }">
-							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
+							                                    <p class="card-title grey-text text-darken-4"  style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
 						                                    </c:if>
 						                                    <c:if test="${list.udtNm == null || list.udtNm == '' }">
-							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음</a></p>
+							                                    <p class="card-title grey-text text-darken-4"  style="font-size: 14px;"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음</a></p>
 						                                    </c:if>
 						                                </div>
 						                            </div>
@@ -143,14 +143,14 @@
 						                        <div class="card-content">
 						                            <div class="row">
 						                                <div class="col s8">
-						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
-						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
-						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
+						                                    <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
+						                                     <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
+						                                    <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">신청자 : <c:out value="${list.memNm }"/> </a></p>
 						                                    <c:if test="${list.udtNm != null }">
-							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
+							                                    <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4">수정자 : <c:out value="${list.udtNm }"/> </a></p>
 						                                    </c:if>
 						                                    <c:if test="${list.udtNm == null || list.udtNm == '' }">
-							                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음 </a></p>
+							                                    <p class="card-title grey-text text-darken-4" style="font-size: 14px;"><a href="#" class="grey-text text-darken-4" style="color: white;">수정자 :  없음 </a></p>
 						                                    </c:if>
 						                                </div>
 						                            </div>

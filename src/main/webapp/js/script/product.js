@@ -77,6 +77,13 @@
 	 		}
 	 		$('#epEditFrm').submit();
 	 	});
+	 	
+	 	
+	 	
+	 	$('#searchBtn').on('click', function(){
+	 		$('#searchFrm').submit();
+	 	});
+	 	
       });
  
  function getList(){
@@ -127,7 +134,7 @@
                    })
             	 
          }else {
-                 swal("Cancelled", "삭제에 실패하였습니다. :)", "error");   } 
+                 swal("Cancelled", "취소 하였습니다.", "error");   } 
         });
  }
  
@@ -160,6 +167,7 @@ function updateProduct(epId){
         			 $('#fileId').val(data.fileId);
         		 }
         		 $('#editEpType').val(data.epType);
+        		 
         		 $('#epId').val(data.epId);
         		 $('#editEpName').val(data.epNm);
         		 $('#editEpPrice').val(data.epPrice);
@@ -171,6 +179,3 @@ function updateProduct(epId){
          }
      })
  }
- /*$(".modal").openModal()
- $('#editEpName').val('hi');*/
- 

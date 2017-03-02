@@ -141,7 +141,7 @@
          },
          success:function(data){
         	 swal("Cancelled", "신청완료", "success");   
-        	 swal({   title: "다른 비품을 더 신청하시겠습니까??",   
+        	 swal({   title: "비품을 더 신청하시겠습니까?",   
                  text: "다른비품을 신청해보세요!!",   
                  type: "info",   
                  showCancelButton: true,   
@@ -172,7 +172,8 @@
          data: {
       	   epId : $('#editEpId').val(),
            epCnt : $('#editEpCnt').val(),
-           price : $('#editEpPrice').val()
+           price : $('#editEpPrice').val(),
+           insertDt : $('#editinsertDt').val()
          },
          error:function(error){
       	   swal("Cancelled", "수정에 실패하였습니다", "error");   
@@ -242,11 +243,11 @@
                    })
             	 
          }else {
-                 swal("Fail", "삭제에 실패하였습니다. :)", "error");   } 
+        	 swal("Not Cancelled", "비품을 취소 하지 않았습니다.", "error");   } 
         });
  }
 
-function editApply(epId){
+function editApply(epId, insertDt){
 	 var path = $('#path').val();
 	 // 수정창 초기화
 	$('#editEpType').val("");
@@ -259,7 +260,8 @@ function editApply(epId){
          url: path+"/apply/editApply",
          method: "GET",
          data: {
-      	   epId : epId
+      	   epId : epId,
+      	 insertDt : insertDt
          },
          error:function(error){
       	   swal("Cancelled", "정보를 가져오는데 실패하였습니다. :)", "error");   
@@ -271,6 +273,7 @@ function editApply(epId){
         		 $('#editEpCnt').val(data.epCnt);
         		 $('#editEpPrice').val(data.epPrice);
         		 $('#editEpId').val(data.epId);
+        		 $('#editinsertDt').val(data.insertDt);
         		 
         		 $(".modal").openModal(); $('#addApplyModal').hide(); 
         	 }else{

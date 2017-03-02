@@ -97,37 +97,37 @@
 	</select>
 
 	<select id="getEpList" resultMap="productResult" parameterType="hashmap">
-		SELECT * 
-		  FROM(
-		        SELECT   EP.EP_ID,          
-		                 EP.EP_NM,          
-		                 EP.EP_TYPE,          
-		                 EP.EP_PRICE,         
-		                 TO_CHAR(EP.INSERT_DT, 'YYYY-MM-DD')AS insertDt,
-		                 TO_CHAR(EP.UPDATE_DT, 'YYYY-MM-DD')AS updateDt,
-		                 F.FILE_ID,
-		                 F.REAL_NM,
-		                 F.FILE_PATH,
-		                 MEM.MEM_ID,
-                     	 MEM.MEM_NM,
-		                 ROWNUM AS RN
-		           FROM EPMS_EPMENT EP LEFT OUTER JOIN EPMS_FILE_EP FE ON EP.EP_ID = FE.EP_ID                        
-  							                                 LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID                             
-							                                 LEFT OUTER JOIN EPMS_MEMBER MEM  ON EP.EP_UST_MEM_ID = MEM.MEM_ID
-		            WHERE EP.EP_USE_YN = 'Y'
-		           <if test="type != null and type != ''">
-				 		AND EP.EP_TYPE = #{type}
-				 	</if>
-				 	<if test="name != null and name != ''">
-				 		AND EP.EP_NM LIKE  '%' || #{name} || '%'
-				 	</if>
-		        )A
-		WHERE A.RN >= ${startIndex}
-		  AND #{limit} >=A.RN
-		ORDER BY  A.insertDt DESC, 
-		          RN DESC 
+		SELECT *
+		  FROM ( SELECT ROWNUM RN, A.*
+		           FROM (
+		                  SELECT EP.EP_ID,          
+						                 EP.EP_NM,          
+						                 EP.EP_TYPE,          
+						                 EP.EP_PRICE,         
+						                 TO_CHAR(EP.INSERT_DT, 'YYYY-MM-DD')AS insertDt,
+						                 TO_CHAR(EP.UPDATE_DT, 'YYYY-MM-DD')AS updateDt,
+						                 F.FILE_ID,
+						                 F.REAL_NM,
+						                 F.FILE_PATH,
+						                 MEM.MEM_ID,
+		                         MEM.MEM_NM
+		                    FROM EPMS_EPMENT EP LEFT OUTER JOIN EPMS_FILE_EP FE ON EP.EP_ID = FE.EP_ID                        
+		                                        LEFT OUTER JOIN EPMS_FILE F ON FE.FILE_ID = F.FILE_ID                             
+									                          LEFT OUTER JOIN EPMS_MEMBER MEM  ON EP.EP_UST_MEM_ID = MEM.MEM_ID
+				            WHERE EP.EP_USE_YN = 'Y'
+		                <if test="type != null and type != ''">
+		                  AND EP.EP_TYPE = #{type}
+		                </if>
+		                <if test="name != null and name != ''">
+		                  AND EP.EP_NM LIKE  '%' || #{name} || '%'
+		                </if>
+		                ORDER BY EP.INSERT_DT DESC
+		                  ) A
+		        )
+		WHERE RN >= #{startIndex} 
+		     AND #{limit} >= RN
 	</select>
-	
+
 	<select id="getEpCard" resultMap="productResult">
 		SELECT   EP.EP_ID,          
 				       EP.EP_NM,          

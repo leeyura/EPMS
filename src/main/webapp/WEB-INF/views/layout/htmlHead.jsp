@@ -29,6 +29,6 @@
 
     <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
     <link href="${pageContext.request.contextPath}/css/plugins/jvectormap-label.css" type="text/css" rel="stylesheet" media="screen,projection">
-    <link href="${pageContext.request.contextPath}/css/plugins/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
-
+    <%-- <link href="${pageContext.request.contextPath}/css/plugins/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection"> --%>
+	
 </head>

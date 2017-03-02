@@ -40,7 +40,6 @@ public class ProductController {
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	private static final String filePath = "C:\\dev\\products";
 	
-	
 	@RequestMapping("/list")
 	public ModelAndView productList(HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
 		ModelAndView mav = null;
@@ -61,6 +60,7 @@ public class ProductController {
 		}else{
 			// 비품 목록 조회해오기.
 				mav = new ModelAndView("product/productList");
+				mav.addObject("viewType", "LIST");
 				mav.addObject("type", type);
 				mav.addObject("name", name);
 				mav.addObject("userInfo", session);
@@ -100,6 +100,7 @@ public class ProductController {
 				productList = dao.getProductsCard(map);
 				
 				mav = new ModelAndView("product/productCard");
+				mav.addObject("viewType", "CARD");
 				mav.addObject("type", type);
 				mav.addObject("name", name);
 				mav.addObject("userInfo", session);
@@ -146,38 +147,39 @@ public class ProductController {
 		}
 	}
 	
-	//epId=0, fileId=1,realNm=HOT.jpg, filePath=D:\workspace\DAIMS_EPMS\src\main\webapp\images\products
-	
-@RequestMapping(value="/addProduct")
+	@RequestMapping(value="/addProduct", method=RequestMethod.POST)
 	public ModelAndView addNewProduct(HttpServletRequest req, HttpServletResponse res, HttpSession session, 
-																		@RequestParam String epType, @RequestParam String epName,
+																		@RequestParam String epType, @RequestParam String epName, @RequestParam String viewType,
 																		@RequestParam String epPrice , @RequestParam("file")MultipartFile file) throws Exception {
-	ModelAndView mav =  new ModelAndView("redirect:/product/list");
-
-	ProductVO productVo = new ProductVO();
-		
-		if(epType !=null && epName != null && epPrice !=null){
-			productVo.setEpType(epType);
-			productVo.setEpNm(epName);
-			productVo.setEpPrice(Integer.parseInt(epPrice));
-			productVo.setEpType(epType);
-			productVo.setEpIstMemId(Integer.parseInt(session.getAttribute("id").toString()));
-			productVo.setEpUstMemId(Integer.parseInt(session.getAttribute("id").toString()));
-		}
-	
-		try {
-			dao.addNewProduct(productVo, req);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return mav;
+		ModelAndView mav =  null;
+		ProductVO productVo = new ProductVO();
+			
+			if(epType !=null && epName != null && epPrice !=null){
+				productVo.setEpType(epType);
+				productVo.setEpNm(epName);
+				productVo.setEpPrice(Integer.parseInt(epPrice));
+				productVo.setEpType(epType);
+				productVo.setEpIstMemId(Integer.parseInt(session.getAttribute("id").toString()));
+				productVo.setEpUstMemId(Integer.parseInt(session.getAttribute("id").toString()));
+			}
+			if(viewType.equals("LIST")){
+				 mav =  new ModelAndView("redirect:/product/list");
+			}else{
+				 mav =  new ModelAndView("redirect:/product/card");
+			}
+			try {
+				dao.addNewProduct(productVo, req);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return mav;
 	}
 
 	@RequestMapping(value="/editProduct", method=RequestMethod.POST)
 	public ModelAndView editProducts(HttpServletRequest req, HttpSession session,
-			                                                     @RequestParam String epType, @RequestParam String epId, @RequestParam String epPrice, @RequestParam String epName,
+			                                                     @RequestParam String epType, @RequestParam String epId, @RequestParam String epPrice, @RequestParam String epName, @RequestParam String viewType,
 			                                                     @RequestParam ("file")MultipartFile file, @RequestParam String fileId, @RequestParam String editFileNm) throws Exception{
-		ModelAndView mav =  new ModelAndView("redirect:/product/list");
+		ModelAndView mav =  null;
 		
 		ProductVO vo = new ProductVO();
 
@@ -192,7 +194,13 @@ public class ProductController {
 			vo.setFileId(0);
 		}
 		vo.setRealNm(editFileNm);
-			
+		
+		if(viewType.equals("LIST")){
+			 mav =  new ModelAndView("redirect:/product/list");
+		}else{
+			 mav =  new ModelAndView("redirect:/product/card");
+		}
+		
 		try {
 			dao.editProduct(vo, req);
 		} catch (SQLException e) {
@@ -255,6 +263,8 @@ public class ProductController {
 		}
 		startIndex = PagingUtil.startIndex(currentPage, limit);
 		
+		
+		
 		if(startIndex!= 0){
 			limit = startIndex + limit;
 			startIndex +=1;
@@ -270,6 +280,9 @@ public class ProductController {
 		map.put("name",name);
 		map.put ("limit", limit);
 		map.put ("startIndex", startIndex);
+		
+		/*AND A.RN >= ${startIndex}0
+	       AND #{limit} >= A.RN*/
 		
 		productList = dao.getProductsList(map);
 		

@@ -165,13 +165,15 @@ public class ApplyController {
 	
 	@ResponseBody
 	@RequestMapping(value ="/editApply", method=RequestMethod.GET)
-	public ApplyVO editApplyInfo(@RequestParam String epId , HttpSession session) throws NumberFormatException, SQLException{
+	public ApplyVO editApplyInfo(@RequestParam String epId , @RequestParam String insertDt,  HttpSession session) throws NumberFormatException, SQLException{
 		ApplyVO vo = new ApplyVO();
-		 
+		Map<String,Integer> map = new HashMap<String,Integer>();
 		if(session.getAttribute("id") == null){
 			vo = null;
 		}else{
-			vo = dao.getApplyInfo(Integer.parseInt(epId));
+			map.put("epId", Integer.parseInt(epId));
+			map.put("insertDt", Integer.parseInt(insertDt));
+			vo = dao.getApplyInfo(map);
 		}
 		return vo ;
 	}
@@ -179,21 +181,22 @@ public class ApplyController {
 	@ResponseBody
 	@RequestMapping(value ="/editApply", method=RequestMethod.POST)
 	public String editApply( HttpSession session , @RequestParam String epId,
-			                                      @RequestParam String epCnt, @RequestParam String price ) throws NumberFormatException, SQLException{
+			                                      @RequestParam String epCnt, @RequestParam String price, @RequestParam String insertDt ) throws NumberFormatException, SQLException{
+		Map<String,Integer> map = new HashMap<String,Integer>();
 		
-		
-		ApplyVO vo = new ApplyVO();
 		String result = "";
 		if(session.getAttribute("id")== null){
 			result = "no";
 		}else{
-			vo.setEpId(Integer.parseInt(epId));
-			vo.setMemUdtId(Integer.parseInt(session.getAttribute("id").toString()));
-			vo.setEpCnt(Integer.parseInt(epCnt));
-			vo.setEpTtPrice(Integer.parseInt(epCnt)*Integer.parseInt(price));
+			
+			map.put("epId", Integer.parseInt(epId));
+			map.put("epCnt", Integer.parseInt(epCnt));
+			map.put("epTtPrice", Integer.parseInt(epCnt)*Integer.parseInt(price));
+			map.put("memUdtId", Integer.parseInt(session.getAttribute("id").toString()));
+			map.put("insertDt", Integer.parseInt(insertDt));
 			
 			try {
-				dao.editApply(vo);
+				dao.editApply(map);
 				result = "ok";
 			} catch (SQLException e) {
 				result = "no";
@@ -202,11 +205,7 @@ public class ApplyController {
 		}
 		return result;
 	}
-	
-	
-	
-	
-	
+
 	public ModelAndView goLogin(){
 		ModelAndView mav = new ModelAndView("redirect:/login");
 		return mav;

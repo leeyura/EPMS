@@ -8,6 +8,13 @@
 	 var path = $('#path').val();
 	 var mt =$('#mt option:selected').val();
 	 var state =$('#state option:selected').val();
+	 window.location.href = path+"/admin/reqEpList?mt="+mt+"&state="+state;
+ }
+ 
+ function getReqCard(){
+	 var path = $('#path').val();
+	 var mt =$('#mt option:selected').val();
+	 var state =$('#state option:selected').val();
 	 window.location.href = path+"/admin/reqEpCard?mt="+mt+"&state="+state;
  }
  

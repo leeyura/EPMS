@@ -1502,17 +1502,18 @@ tr.group:hover {
 	font-weight: 500
 }
 
-.collapsible-header:after {
+/* .collapsible-header:after {
 	font-family: "Material-Design-Icons";
 	content: "\e7c3";
 	float: right;
 	color: #9e9e9e;
 	font-size: 18px
-}
+background-image:url(../images/down.png); 
+}  */
 
-.collapsible-header.active:after {
+/* .collapsible-header.active:after {
 	content: "\e7c1"
-}
+} */
 
 #input-select .input-field label {
 	position: absolute;

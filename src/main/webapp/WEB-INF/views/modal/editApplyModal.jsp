@@ -41,6 +41,7 @@
 							<label for="editEpCnt" class="center-align">신청수량</label>
 							<input type="hidden" id="editEpPrice" value="" name="epPrice">
 							<input type="hidden" id="editEpId" value="" name="epId">
+							<input type="hidden" id="editinsertDt" value="" name="insertDt">
 						</div>
 					</div>
 

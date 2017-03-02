@@ -14,20 +14,19 @@
 			        </div>
 			        <div class="row margin">
 			          <div class="input-field col s12">
-							<!-- <div class="select-wrapper initialized"> -->
 								<select class="browser-default" id="editEpType" name="epType" >
 									<option value="">비품분류</option>
 									<option value="0">식.음료</option>
 									<option value="1">생활용품</option>
-									<option value="1">사무용품</option>
+									<option value="2">사무용품</option>
 									<option value="3">기타</option>
 								</select>
-							<!-- </div> -->
 			          </div>
 			        </div>
 			        <div class="row margin" style="padding-top: 15px;">
 			          <div class="input-field col s12">
 			          <input type="hidden" id="epId" value="" name="epId">
+			            <input type="hidden" name="viewType" id="viewType" value="${viewType }">
 			            <input id="editEpName" type="text" placeholder="비품명" name="epName" maxlength="100"  value="">
 			            <label for="editEpName" class="center-align">비품명</label>
 			          </div>

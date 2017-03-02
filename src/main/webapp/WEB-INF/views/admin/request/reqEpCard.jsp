@@ -16,11 +16,11 @@
             	
   				<div id="input-select" class="row" style="margin-bottom: 0px;">
 					<div class="col s1 m1 l1">
-						<span style="color: #fff;">DAIMS_EPMS</span>
+						<span style="color: ghostwhite;">DAIMS_EPMS</span>
 					</div>
 					
 					<div class="col s2 m2 l2" style="padding-top: 20px;">
-						<div class="col s12 m12 l12"><span style="color: #fff;">DAIMS_EPMS</span></div>
+						<div class="col s12 m12 l12"><span style="color: ghostwhite;">DAIMS_EPMS</span></div>
 					</div>
 
 					<div class="col s7 m7 l7" style="padding-top: 20px;">
@@ -35,8 +35,8 @@
 						<div class="col s2 m2 l2 right">
 							<label>상태</label>
 							<div class="select-wrapper initialized">
-								<select class="initialized" onchange="getReqList()" id="state">
-									<option value="" >상태</option>
+								<select class="initialized" onchange="getReqCard()" id="state">
+									<option value="" >전체</option>
 									<option value="0" <c:if test="${state eq '0' }">selected</c:if>>대기중</option>
 									<option value="1" <c:if test="${state eq '1' }">selected</c:if>>승인</option>
 									<option value="2" <c:if test="${state eq '2' }">selected</c:if>>반려</option>
@@ -47,8 +47,8 @@
 						<div class="col s2 m2 l2 right">
 							<label>요청월</label>
 							<div class="select-wrapper initialized">
-								 <select class="initialized" onchange="getReqList()" id="mt">
-									<option value="" >요청월</option>
+								 <select class="initialized" onchange="getReqCard()" id="mt">
+									<option value="" >전체월</option>
 									<c:forEach begin="1" end="12" varStatus="status">
 									<c:set value="${status.count }" var="cnt"/>
 										<c:if test="${cnt < 10 }">
@@ -79,7 +79,7 @@
 					                    <div class="card">
 					                        <div class="card-image waves-effect waves-block waves-light">
 					                            <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2"><c:out value="${list.epTtPrice }"/>원</a>
-					                            <a href="${pageContext.request.contextPath }/apply/view">
+					                            <a href="#">
 					                            	<c:if test="${list.fileId !=null && list.fileId != '' }">
 					                            		<img alt="product-img" src="${pageContext.request.contextPath }/product/img?fileId=${list.fileId}">
 					                            	</c:if>
@@ -95,7 +95,7 @@
 						                            <li><a class="btn-floating waves-effect waves-light red accent-2" title="반려" onclick="cardNoState(${list.epId });" data-id="2" id="stateNO"><i class="material-icons" >cached</i></a></li>
 						                        </ul>
 						                        <div class="card-content">
-						                            <div class="row">
+						                            <div class="row" style="max-height: 120px;">
 						                                <div class="col s8">
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
 						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
@@ -109,7 +109,7 @@
 								                    <li><a class="btn-floating waves-effect waves-light light-blue" title="승인"><i class="material-icons">done</i></a></li>
 						                        </ul>
 						                        <div class="card-content">
-						                            <div class="row">
+						                            <div class="row" style="max-height: 120px;">
 						                                <div class="col s8">
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
 						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
@@ -124,7 +124,7 @@
 						                            <li><a class="btn-floating waves-effect waves-light light-blue" title="반려사유"><i class="material-icons activator">info_outline</i></a></li>
 						                        </ul>
 						                        <div class="card-content">
-						                            <div class="row">
+						                            <div class="row" style="max-height: 120px;">
 						                                <div class="col s8">
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
 						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>
@@ -142,7 +142,7 @@
 								                    <li><a class="btn-floating waves-effect waves-light red accent-2" title="취소" onclick="cancelApply(${list.epId});"><i class="material-icons">highlight_off</i></a></li>
 						                        </ul>
 						                        <div class="card-content">
-						                            <div class="row">
+						                            <div class="row" style="max-height: 120px;">
 						                                <div class="col s8">
 						                                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4"><c:out value="${list.epNm }"/></a></p>
 						                                     <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">신청 수량 : <c:out value="${list.epCnt }"/></a></p>

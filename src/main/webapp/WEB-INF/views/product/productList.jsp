@@ -11,7 +11,7 @@
         <div class="wrapper">
 
             <jsp:include page="../layout/menu.jsp" flush="false"/>
-            <section id="content" style="min-height: 647px;">
+            <section id="content" style="min-height: 738px;">
             
             <!-- add Modal -->
             <jsp:include page="../modal/addProductModal.jsp" flush="false"/>
@@ -20,10 +20,10 @@
             
 	            <div id="input-select" class="row" style="margin-bottom: 0px;">
 					<div class="col s1 m1 l1">
-						<span style="color: #fff;">DAIMS_EPMS</span>
+						<span style="color: ghostwhite;">DAIMS_EPMS</span>
 					</div>
 					<div class="col s2 m2 l2" style="padding-right: 0px; padding-top: 20px;">
-						<div class="col s3 m3 l3"><span style="color: #fff;">DAIMS_EPMS</span></div>
+						<div class="col s3 m3 l3"><span style="color: ghostwhite;">DAIMS_EPMS</span></div>
 							<div class="col s6 m6 l6">
 								<a class="btn-floating btn-large waves-effect waves-light modal-trigger" href="#addModal">
 									<i class="material-icons">add</i>
@@ -31,15 +31,17 @@
 							</div>
 					</div>
 					<div class="col s6 m6 l6 right" style="display: flex;padding-top: 20px;padding-left: 0px;padding-bottom: -5;">
-                       	<form method="get" action="${pageContext.request.contextPath }/product/list" >
-	                       	<input class="input-field col s10 m10 l10" type="text" placeholder="비품명" style="margin-left: 0px;"  name="name" value="${name }">
-	                      	<i class="material-icons  right" style="padding-top: 15px; margin-left: 0px; cursor: pointer;">search</i> 
-                       	</form>
-                      	
+                      	<div class="select-wrapper">
+	                      	<label>비품명</label>
+	                       	<form method="get" action="${pageContext.request.contextPath }/product/list"  id="searchFrm">
+		                       	<input class="input-field col s10 m10 l10" type="text" placeholder="비품명" style="margin-left: 0px;"  name="name" value="${name }">
+		                      	<i class="material-icons  right" style="padding-top: 15px; margin-left: 0px; cursor: pointer;" id="searchBtn">search</i> 
+	                       	</form>
+                      	</div>
 						<div class="select-wrapper initialized" style="margin-right: 20px;">
-							<span class="caret">▼</span> 
+                      	<label>분류</label>
 							<select class="initialized" id="type" onchange="getList()">
-								<option value="" selected="selected">분류</option>
+								<option value="" selected="selected">전체</option>
 								<option value="0" <c:if test="${type eq '0' }">selected</c:if>>식.음료</option>
 								<option value="1" <c:if test="${type eq '1' }">selected</c:if>>생활용품</option>
 								<option value="2" <c:if test="${type eq '2' }">selected</c:if>>사무용품</option>
@@ -58,7 +60,7 @@
 				
 				<!-- main -->
 				<div class="row" id="productList" style="margin-top: 20px;height: 500px;">
-					<div class="col s1 m1 l1"><span style="color: #fff;">DAIMS_EPMS</span></div> 	
+					<div class="col s1 m1 l1"><span style="color: ghostwhite;">DAIMS_EPMS</span></div> 	
 	            	<div class="col s10 m10 l10">
 						<table class="bordered">
 		                    <thead>
@@ -110,7 +112,7 @@
 									</c:forEach>		                    	
 		                    	</c:if>
 		                    	<c:if test="${productList == '[]'  || productList == null}">
-		                    		<tr>
+		                    		<tr style="height: 47px;">
 		                    			<td colspan="8"> 비품목록이 없습니다. 비품을 등록해주세요.</td>
 		                    		</tr>
 		                    	</c:if>

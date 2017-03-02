@@ -14,6 +14,10 @@
     <!--plugins.js - Some Specific JS codes for Plugin Settings-->
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/plugins/plugins.min.js"></script>
     <!-- Toast Notification -->
+    <!-- menu -->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/common.js"></script>
+    
+    
     <script type="text/javascript">
 
     //$('.collapsible-body').find('ul').find('li')
